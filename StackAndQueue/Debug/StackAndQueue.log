@@ -1,0 +1,4 @@
+﻿  stack.c
+D:\Programs\StackAndQueue\StackAndQueue\stack.c(10,17): warning C4047:  функция: "stack *" отличается по уровням косвенного обращения от "stack **"
+D:\Programs\StackAndQueue\StackAndQueue\stack.c(10,17): warning C4024:  stack_free: различные типы для формального и фактического параметров 1
+  StackAndQueue.vcxproj -> D:\Programs\StackAndQueue\Debug\StackAndQueue.exe
