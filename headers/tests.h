@@ -1,7 +1,7 @@
 #ifndef _TESTS
 #define _TESTS
 #include <stdio.h>
-#include "stack.h"
+#include "../headers/stack.h"
 
 typedef enum { True, False } Bool;
 

@@ -1,4 +1,4 @@
-#include "tests.h"
+#include "../headers/tests.h"
 
 Bool test_stack_init(stack* st, int _size) {
   stack_init(st, _size);
@@ -31,3 +31,5 @@ Bool test_stack_pop(stack* st) {
   else
     return False;
 }
+
+

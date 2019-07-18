@@ -1,9 +1,10 @@
 #include <stdio.h>
-#include "stack.h"
-#include "tests.h"
+#include "../headers/stack.h"
+#include "../headers/tests.h"
 int main(void) {
   stack obj;
   stack_create(&obj);
+
   test_stack_init(&obj, 10) == True ? printf("test_stack_init: OK\n")
                                     : printf("test_stack_init: FAIL\n");
   stack_decl_with_keyboard(&obj);
@@ -13,6 +14,6 @@ int main(void) {
   test_stack_pop(&obj) == True ? printf("test_stack_pop: OK\n")
                                : printf("test_stack_pop: FAIL\n");
   stack_print(&obj);
-
+  stack_free(&obj);
   return 0;
 }
