@@ -22,6 +22,7 @@ void stack_init(stack* st, int _size) {
 void stack_free(stack* st) { st = NULL; }
 
 void stack_print(stack* st) {
+  printf("\n*stack print*\n\n");
   if (st->begin == NULL) return;
   cell* print_el = st->begin;
   printf("[ | ");
@@ -29,7 +30,7 @@ void stack_print(stack* st) {
     printf("%d | ", print_el->key);
     print_el = print_el->next;
   }
-  printf("]\n");
+  printf("]\n\n");
 }
 
 void stack_push(stack* st, int el) {
@@ -79,12 +80,13 @@ int stack_get_el(stack* st, int index) {
   cell* temp = st->begin;
   while (index != 0) {
     temp = temp->next;
+    index--;
   }
   return temp->key;
 }
 
 void stack_decl_with_keyboard(stack* st) {
-  printf("\n*stack fillization*\n");
+  printf("\n*stack fillization*\n\n");
   if (st->begin == NULL) {
     printf("Stack doesn't initialized\n");
     abort();
@@ -110,6 +112,6 @@ void stack_delete(stack* st) {
     } else {
       free(st->end);
       free(st->begin);
-	}
+    }
   }
 }

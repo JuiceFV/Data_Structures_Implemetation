@@ -20,12 +20,15 @@ typedef struct stack {
 
 // -----------main functions------------
 // create stack (constructor)
+// without test
 void stack_create(stack* st);
 // stack initialization with some size
 void stack_init(stack* st, int _size);
 // clear stack
+// without test
 void stack_free(stack* st);
 // print stack
+// without test
 void stack_print(stack* st);
 // push element in stack
 void stack_push(stack* st, int el);
@@ -34,8 +37,10 @@ int stack_pop(stack* st);
 // get element by index
 int stack_get_el(stack* st, int index);
 // stack declaration using keyboard input
+// without test
 void stack_decl_with_keyboard(stack* st);
 // delete memory
+// without test
 void stack_delete(stack* st);
 // --------end of main functions--------
 
