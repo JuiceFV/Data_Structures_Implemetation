@@ -22,7 +22,6 @@ void stack_init(stack* st, int _size) {
 void stack_free(stack* st) { st = NULL; }
 
 void stack_print(stack* st) {
-  printf("\n*stack print*\n\n");
   if (st->begin == NULL) return;
   cell* print_el = st->begin;
   printf("[ | ");
@@ -30,7 +29,7 @@ void stack_print(stack* st) {
     printf("%d | ", print_el->key);
     print_el = print_el->next;
   }
-  printf("]\n\n");
+  printf("]\n");
 }
 
 void stack_push(stack* st, int el) {
@@ -51,7 +50,7 @@ void stack_push(stack* st, int el) {
 
 int stack_pop(stack* st) {
   if (st->size == 0) {
-    printf("Stack is empty\n");
+    printf("|Stack is empty|\n");
     abort();
   } else {
     int deleted = st->end->key;
@@ -70,11 +69,11 @@ int stack_pop(stack* st) {
 
 int stack_get_el(stack* st, int index) {
   if (st->begin == NULL) {
-    printf("Stack is empty\n");
+    printf("|Stack is empty|\n");
     abort();
   }
   if (st->size < index) {
-    printf("Size of the stack is less than index\n");
+    printf("|Size of the stack is less than index|\n");
     abort();
   }
   cell* temp = st->begin;
@@ -85,26 +84,22 @@ int stack_get_el(stack* st, int index) {
   return temp->key;
 }
 
-void stack_decl_with_keyboard(stack* st) {
-  printf("\n*stack fillization*\n\n");
+void stack_decl(stack* st) {
   if (st->begin == NULL) {
-    printf("Stack doesn't initialized\n");
+    printf("|Stack doesn't initialized|\n");
     abort();
   } else {
     cell* temp = st->begin;
-    int index = 0;
     while (temp != NULL) {
-      printf("Input %d element: ", index);
-      scanf_s("%d", &temp->key);
+      temp->key = rand() % 201 - 100;
       temp = temp->next;
-      index++;
     }
   }
 }
 
 void stack_delete(stack* st) {
   if (st->begin == NULL) {
-    printf("There is no stack\n");
+    printf("|There is no stack|\n");
     abort();
   } else {
     if (st->begin == st->end) {

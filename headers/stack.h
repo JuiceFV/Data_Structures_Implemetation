@@ -38,7 +38,7 @@ int stack_pop(stack* st);
 int stack_get_el(stack* st, int index);
 // stack declaration using keyboard input
 // without test
-void stack_decl_with_keyboard(stack* st);
+void stack_decl(stack* st);
 // delete memory
 // without test
 void stack_delete(stack* st);

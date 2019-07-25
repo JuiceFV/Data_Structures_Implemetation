@@ -22,7 +22,6 @@ void queue_init(queue* qu, int _size) {
 }
 
 void queue_print(queue* qu) {
-  printf("\n*queue print*\n\n");
   if (qu->begin == NULL) return;
   q_cell* print_el = qu->begin;
   printf("[ | ");
@@ -31,7 +30,7 @@ void queue_print(queue* qu) {
     print_el->prev = print_el;
     print_el = print_el->next;
   }
-  printf("]\n\n");
+  printf("]\n");
 }
 
 void queue_free(queue* qu) { qu = NULL; }
@@ -56,7 +55,7 @@ void queue_push(queue* qu, int el) {
 
 int queue_pop(queue* qu) {
   if (qu->size == 0) {
-    printf("Queue is empty\n");
+    printf("|Queue is empty|\n");
     abort();
   } else {
     int deleted = qu->begin->key;
@@ -71,11 +70,11 @@ int queue_pop(queue* qu) {
 
 int queue_get_el(queue* qu, int index) {
   if (qu->begin == NULL) {
-    printf("Queue is empty\n");
+    printf("|Queue is empty|\n");
     abort();
   }
   if (qu->size < index) {
-    printf("Size of the queue is less than index\n");
+    printf("|Size of the queue is less than index|\n");
     abort();
   }
   q_cell* temp = qu->begin;
@@ -87,27 +86,23 @@ int queue_get_el(queue* qu, int index) {
   return temp->key;
 }
 
-void queue_decl_with_keyboard(queue* qu) {
-  printf("\n*queue fillization*\n\n");
+void queue_decl(queue* qu) {
   if (qu->begin == NULL) {
-    printf("Queue doesn't initialized\n");
+    printf("|Queue doesn't initialized|\n");
     abort();
   } else {
     q_cell* temp = qu->begin;
-    int index = 0;
     while (temp != NULL) {
-      printf("Input %d element: ", index);
-      scanf_s("%d", &temp->key);
+      temp->key = rand() % 201 - 100;
       temp->prev = temp;
       temp = temp->next;
-      index++;
     }
   }
 }
 
 void queue_delete(queue* qu) {
   if (qu->begin == NULL) {
-    printf("There is no queue\n");
+    printf("|There is no queue|\n");
     abort();
   } else {
     if (qu->begin == qu->end) {

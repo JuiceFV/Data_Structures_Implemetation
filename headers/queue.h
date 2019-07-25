@@ -35,7 +35,7 @@ int queue_pop(queue* qu);
 int queue_get_el(queue* qu, int index);
 // queue declaration using keyboard input
 // without test
-void queue_decl_with_keyboard(queue* qu);
+void queue_decl(queue* qu);
 // delete memory
 // without test
 void queue_delete(queue* qu);
