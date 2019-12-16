@@ -1,4 +1,5 @@
-# Stack & Queue
-This project shows, how does Stack and Queue work. With main functions as push, pop, e.t.c.
+# Data Structures Implemetation
+My own implemetation all most famous Data Structures using standard C.
+# Table of Content
 # TODO
 Rewrite the whole code
