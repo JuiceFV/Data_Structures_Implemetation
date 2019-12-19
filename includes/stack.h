@@ -108,6 +108,35 @@
     st->size = _size;                                                        \
   }
 
+#define stack_is_empty(st) (st->size == 0 ? 1 : 0)
+
+// Simple push into the stack.
+#define stack_push(st, val)                                                  \
+  {                                                                          \
+    if (st) {                                                                \
+      if (st->begin == NULL) {                                               \
+        st->begin = malloc(sizeof(*(st->begin)) + sizeof(st->begin->value)); \
+        st->begin->value = val;                                              \
+        st->begin->next = NULL;                                              \
+        st->end = st->begin;                                                 \
+        st->size = 1;                                                        \
+      } else {                                                               \
+        st->end->next = malloc(sizeof(*(st->end)) + sizeof(st->end->value)); \
+        st->end = st->end->next;                                             \
+        st->end->value = val;                                                \
+        st->end->next = NULL;                                                \
+        st->size++;                                                          \
+      }                                                                      \
+    } else {                                                                 \
+      printf(                                                                \
+          "There is no stack. You must use the constructor before using "    \
+          "the stack_push.\nTo avoid any errors this program will "          \
+          "abort. "                                                          \
+          "Please press any key");                                           \
+      return (getchar());                                                    \
+    }                                                                        \
+  }
+
 #define stack_clear(st)   \
   do {                    \
     stack_destructor(st); \
