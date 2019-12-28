@@ -1,4 +1,5 @@
 #include "../includes/stack.h"
+
 void* stack_pop_function(stack(any_type) * st) {
   if (st) {
     void* result = st->end->value;

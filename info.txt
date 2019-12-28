@@ -1,0 +1,5 @@
+https://www.embedded.com/template-meta-programming-in-c-vs-opaque-pointer/ (opaque pointers vs template)
+https://tiehu.is/blog/c1 (template-queue in C)
+https://habr.com/ru/post/154811/ (templates in C)
+https://attractivechaos.wordpress.com/2008/09/02/implementing-generic-hash-library-in-c/ (hash_table generic)
+https://medium.com/@pankaj.rai16/know-your-data-structure-linked-list-4b00fcfbda93 (linkedlist time-complexity)

@@ -1,4 +1,5 @@
 #include "./includes/stack.h"
+#include <vld.h>
 /*#include <stdio.h>
 #include <stdlib.h>
 
@@ -43,7 +44,7 @@ int main( int argc, char** argv)
 }*/
 
 int main() {
-  stack(int) * a = NULL;
+  stack(int)* a = NULL;
   stack_constructor(int, a);
   stack_push(a, 7);
   stack_push(a, 6);
