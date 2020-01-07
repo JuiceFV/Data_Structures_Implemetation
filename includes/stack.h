@@ -44,7 +44,7 @@
     if (st == NULL) {                                                        \
       if (!(st = malloc(sizeof(stack(T))))) {                                \
         write_error_log(MALLOC_ERROR_MESSAGE, __LINE__, __FILE__,            \
-                        "-> line: 43 file(stack.h)");                        \
+                        "-> line: 44 file(stack.h)");                        \
         printf(                                                              \
             "Error has occured! Check error_log.txt for the more details.\n" \
             "Press any key");                                                \
@@ -54,7 +54,6 @@
       st->end = NULL;                                                        \
       st->size = 0;                                                          \
     }                                                                        \
-    write_log(STACK_CONSTRUCTOR_ACCOMPLISHED, "stack_constructor(T, st)");   \
   } while (0)
 
 // A little bit specific implemetation of the stack_pop.
@@ -65,13 +64,16 @@
 typedef void *any_type;
 void *stack_pop_function(stack(any_type) * st);
 #define stack_pop(st) stack_pop_function(st)
+
+void *stack_at_function(stack(any_type) * st, int index);
+#define stack_at(st, index) stack_at_function(st, index)
 #elif defined(__GNUC__)
 #define stack_constructor(T)                                               \
   ({                                                                       \
     struct stack_##T *st;                                                  \
     if (!(st = malloc(sizeof(stack(T))))) {                                \
       write_error_log(MALLOC_ERROR_MESSAGE, __LINE__, __FILE__,            \
-                      "-> line: 67 file(stack.h)");                        \
+                      "-> line: 71 file(stack.h)");                        \
       printf(                                                              \
           "Error has occured! Check error_log.txt for the more details.\n" \
           "Press any key");                                                \
@@ -80,8 +82,75 @@ void *stack_pop_function(stack(any_type) * st);
     st->begin = NULL;                                                      \
     st->end = NULL;                                                        \
     st->size = 0;                                                          \
-    write_log(STACK_CONSTRUCTOR_ACCOMPLISHED, "stack_constructor(T, st)"); \
     st;                                                                    \
+  })
+
+#define stack_pop(st)                                                        \
+  ({                                                                         \
+    typeof(st->end->value) result;                                           \
+    if (st) {                                                                \
+      if (st->begin == NULL) {                                               \
+        write_error_log(ELEMENT_INACCESSIBILITY("stack_pop(st)"), __LINE__,  \
+                        __FILE__, "-> line: 89 file(stack.h)");              \
+        printf(                                                              \
+            "Error has occured! Check error_log.txt for the more details.\n" \
+            "Press any key");                                                \
+        return (getchar());                                                  \
+      }                                                                      \
+      result = st->end->value;                                               \
+      if (st->begin == st->end) {                                            \
+        free(st->end);                                                       \
+        st->begin = st->end = NULL;                                          \
+        st->size--;                                                          \
+      } else {                                                               \
+        void *temp1 = st->begin;                                             \
+        while (st->begin->next != st->end) st->begin = st->begin->next;      \
+        st->end = st->begin;                                                 \
+        st->begin = temp1;                                                   \
+        free(st->end->next);                                                 \
+        st->end->next = NULL;                                                \
+        st->size--;                                                          \
+      }                                                                      \
+    } else {                                                                 \
+      write_error_log(STACK_INACCESSIBILITY("stack_pop(stack)"), __LINE__,   \
+                      __FILE__, "-> line: 88 file(stack.h)");                \
+      printf(                                                                \
+          "Error has occured! Check error_log.txt for the more details.\n"   \
+          "Press any key");                                                  \
+      return (getchar());                                                    \
+    }                                                                        \
+    result;                                                                  \
+  })
+
+#define stack_at(st, index)                                                   \
+  ({                                                                          \
+    typeof(st->end->value) result;                                            \
+    if (st) {                                                                 \
+      if (st->begin == NULL) {                                                \
+        write_error_log(ELEMENT_INACCESSIBILITY("stack_at(stack, index)"),    \
+                        __LINE__, __FILE__, "-> line: 128 file(stack.h)");    \
+        printf(                                                               \
+            "Error has occured! Check error_log.txt for the more "            \
+            "details.\nPress any key");                                       \
+        return (getchar());                                                   \
+      }                                                                       \
+      if ((index >= 0) && (index < st->size)) {                               \
+        int i = index;                                                        \
+        typeof(*(st->begin)) *temp = st->begin;                               \
+        while (temp && (i-- > 0)) temp = temp->next;                          \
+        result = temp->value;                                                 \
+      }                                                                       \
+    } else {                                                                  \
+      write_error_log(                                                        \
+          STACK_INACCESSIBILITY(                                              \
+              "stack_at_function(stack(any_type) * st, unsigned int index)"), \
+          __LINE__, __FILE__, "");                                            \
+      printf(                                                                 \
+          "Error has occured! Check error_log.txt for the more details.\n"    \
+          "Press any key");                                                   \
+      return (getchar());                                                     \
+    }                                                                         \
+    result;                                                                   \
   })
 #endif  // end compiler-split implimentation
 
@@ -96,10 +165,9 @@ void *stack_pop_function(stack(any_type) * st);
         } while (st->begin != NULL);                                       \
       }                                                                    \
       free(st);                                                            \
-      write_log(STACK_DESTRUCTOR_ACCOMPLISHED, "stack_destructor(stack)"); \
     } else {                                                               \
       write_error_log(STACK_INACCESSIBILITY("stack_destructor(stack)"),    \
-                      __LINE__, __FILE__, "-> line: 97 file(stack.h)");    \
+                      __LINE__, __FILE__, "-> line: 110 file(stack.h)");   \
       printf(                                                              \
           "Error has occured! Check error_log.txt for the more details.\n" \
           "Press any key");                                                \
