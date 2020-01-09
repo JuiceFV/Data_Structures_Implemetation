@@ -1,22 +1,40 @@
-/***************************************************************
-    In this file I have implemented the stack data structure
-    In this implemetation I used linked-list. Also I tried to
-    make the "template", such as in C++.  Most of the methods
-    were written in this file (stack.h) because I needed to use
-    an undefined type. Which make essential the usage of the
-    "#define" macro-definition.
-***************************************************************/
+/*
+    <STACK DATA STRUCTURE>
+    The stack data structure is pretty simple but pretty useful
+    data structure.
+    What is Stack?
+    - It is type of linear data structure.
+    - It follows LIFO (Last In First Out) property.
+    - Insertion and Deletion in stack can only be done from top only.
+    - Insertion in stack is also known as a PUSH operation.
+    - Deletion from stack is also known as POP operation in stack.
+    Stack Implementation
+    - Stack implementation using array.
+    - Stack implementation using linked list. (Which I used)
+    Stack usage example
+    -When function (sub-program) is called
+     When a function is called, the function is called last will be completed
+     first. It is the property of stack. There is a memory area, specially
+     reserved for this stack.
+
+    More information you can find here:
+    https://en.wikipedia.org/wiki/Stack_(abstract_data_type)
+*/
 #ifndef _STACK
 #define _STACK
 
+// Including the header which will be used as common file for the
+// all data-structures-implementation.
+// Now it contains:
+// - Error messages
+// - function which writes error logs
+// - library for the memory leaks detection (#include <crtdbg.h>)
 #include "common.h"
 
-// The node structure. It's using as a type.
-// For instance, "node(int) *nd;".
-// This notation expands into this initialization
-// struct node_int {int value; struct node_int *next;} *nd;
-// I would to note that the token "##" is concatenation operator.
-// You can find more information here:
+// This define will expands as
+// struct node_T{T value; struct node_T *next}, where T is a type
+// The operator "##" using as concatenation operator.
+// You can read more about this here:
 // https://docs.microsoft.com/en-us/cpp/preprocessor/token-pasting-operator-hash-hash?view=vs-2019
 #define node(T)            \
   struct node_##T {        \
@@ -24,27 +42,50 @@
     struct node_##T *next; \
   }
 
+// This define will expands as
+// struct stack_T{size_t size; node(T) * begin, *end;}, where T is a type
 #define stack(T)           \
   struct stack_##T {       \
     size_t size;           \
     node(T) * begin, *end; \
   }
 
-// Here I have split the implemetation. It's depending on the compilers.
-// For example the GNUC-compiler has some syntax-sugar, which MSVC hasn't.
+// The destructor freeing memory which were allocated for the stack.
+// Check for the stack and first element availability. If at least one
+// element exists then freeing node by node. As soon as each element is freed,
+// the entire stack is freed.
+#define stack_destructor(st)                                               \
+  {                                                                        \
+    if (st) {                                                              \
+      if (st->begin) {                                                     \
+        do {                                                               \
+          void *temp = st->begin;                                          \
+          st->begin = st->begin->next;                                     \
+          free(temp);                                                      \
+        } while (st->begin != NULL);                                       \
+      }                                                                    \
+      free(st);                                                            \
+    } else {                                                               \
+      write_error_log(STACK_INACCESSIBILITY("stack_destructor(stack)"),    \
+                      __LINE__, __FILE__, "-> includes/stack.h:55");       \
+      printf(                                                              \
+          "Error has occured! Check error_log.txt for the more details.\n" \
+          "Press any key");                                                \
+      return (getchar());                                                  \
+    }                                                                      \
+  }
+
+// Splitting into two implementations due to the variety of compilers. However,
+// the basic logic is the same.
 #if defined(_MSC_VER)
-// The constructor is pretty simple:
-// 1) Check the availability  of the object.
-// 2) Allocate memory for the object
-// 3) Zeroing each field of the object
-// Note: I am using "do{}while(0)" to avoid syntax errors. Also you can use only
-// "{}".
+// The constructor is allocating the memory for the stack and zeroing each
+// field. Otherwise it writes an error into error_logs.txt
 #define stack_constructor(T, st)                                             \
   do {                                                                       \
     if (st == NULL) {                                                        \
       if (!(st = malloc(sizeof(stack(T))))) {                                \
         write_error_log(MALLOC_ERROR_MESSAGE, __LINE__, __FILE__,            \
-                        "-> line: 44 file(stack.h)");                        \
+                        "-> includes/stack.h:79");                           \
         printf(                                                              \
             "Error has occured! Check error_log.txt for the more details.\n" \
             "Press any key");                                                \
@@ -53,20 +94,22 @@
       st->begin = NULL;                                                      \
       st->end = NULL;                                                        \
       st->size = 0;                                                          \
+    } else {                                                                 \
+      write_error_log(STACK_EXISTANCE, __LINE__, __FILE__,                   \
+                      "-> includes/stack.h:78");                             \
+      printf(                                                                \
+          "Error has occured! Check error_log.txt for the more details.\n"   \
+          "Press any key");                                                  \
+      stack_destructor(st);                                                  \
+      _CrtDumpMemoryLeaks();                                                 \
+      return (getchar());                                                    \
     }                                                                        \
   } while (0)
 
-// A little bit specific implemetation of the stack_pop.
-// Cause of this is MSVC compiler. GNUC implemetation is a little bit different
-// Here we shall to use the "typedef void* any_type" because when we will
-// concatenate using "##" we will get an error.
-// The explanation, how does it works is in the "stack.c"
+// Due to there is no way to use such notation stack(void *).
 typedef void *any_type;
 void *stack_pop_function(stack(any_type) * st);
 #define stack_pop(st) stack_pop_function(st)
-
-void *stack_at_function(stack(any_type) * st, int index);
-#define stack_at(st, index) stack_at_function(st, index)
 #elif defined(__GNUC__)
 #define stack_constructor(T)                                               \
   ({                                                                       \
@@ -95,6 +138,7 @@ void *stack_at_function(stack(any_type) * st, int index);
         printf(                                                              \
             "Error has occured! Check error_log.txt for the more details.\n" \
             "Press any key");                                                \
+        stack_destructor(st);                                                \
         return (getchar());                                                  \
       }                                                                      \
       result = st->end->value;                                               \
@@ -122,96 +166,11 @@ void *stack_at_function(stack(any_type) * st, int index);
     result;                                                                  \
   })
 
-#define stack_at(st, index)                                                   \
-  ({                                                                          \
-    typeof(st->end->value) result;                                            \
-    if (st) {                                                                 \
-      if (st->begin == NULL) {                                                \
-        write_error_log(ELEMENT_INACCESSIBILITY("stack_at(stack, index)"),    \
-                        __LINE__, __FILE__, "-> line: 128 file(stack.h)");    \
-        printf(                                                               \
-            "Error has occured! Check error_log.txt for the more "            \
-            "details.\nPress any key");                                       \
-        return (getchar());                                                   \
-      }                                                                       \
-      if ((index >= 0) && (index < st->size)) {                               \
-        int i = index;                                                        \
-        typeof(*(st->begin)) *temp = st->begin;                               \
-        while (temp && (i-- > 0)) temp = temp->next;                          \
-        result = temp->value;                                                 \
-      }                                                                       \
-    } else {                                                                  \
-      write_error_log(                                                        \
-          STACK_INACCESSIBILITY(                                              \
-              "stack_at_function(stack(any_type) * st, unsigned int index)"), \
-          __LINE__, __FILE__, "");                                            \
-      printf(                                                                 \
-          "Error has occured! Check error_log.txt for the more details.\n"    \
-          "Press any key");                                                   \
-      return (getchar());                                                     \
-    }                                                                         \
-    result;                                                                   \
-  })
 #endif  // end compiler-split implimentation
 
-#define stack_destructor(st)                                               \
-  {                                                                        \
-    if (st) {                                                              \
-      if (st->begin) {                                                     \
-        do {                                                               \
-          void *temp = st->begin;                                          \
-          st->begin = st->begin->next;                                     \
-          free(temp);                                                      \
-        } while (st->begin != NULL);                                       \
-      }                                                                    \
-      free(st);                                                            \
-    } else {                                                               \
-      write_error_log(STACK_INACCESSIBILITY("stack_destructor(stack)"),    \
-                      __LINE__, __FILE__, "-> line: 110 file(stack.h)");   \
-      printf(                                                              \
-          "Error has occured! Check error_log.txt for the more details.\n" \
-          "Press any key");                                                \
-      return (getchar());                                                  \
-    }                                                                      \
-  }
-
-#define stack_resize(st, _size)                                             \
-  {                                                                         \
-    if (st == NULL) {                                                       \
-      write_error_log(STACK_INACCESSIBILITY("stack_resize(stack, size)"),   \
-                      __LINE__, __FILE__, "-> line: 111 file(stack.h)");    \
-      printf(                                                               \
-          "Error has occured! Check error_log.txt for the more details.\n"  \
-          "Press any key");                                                 \
-      return (getchar());                                                   \
-    }                                                                       \
-    if (st->size > _size) {                                                 \
-      printf(                                                               \
-          "Wrong size. You trying to cut the size of the vector\nTo avoid " \
-          "any errors this program will abort. Please press any key");      \
-      stack_destructor(st);                                                 \
-      return (getchar());                                                   \
-    }                                                                       \
-    int i = st->size;                                                       \
-    if (st->begin == NULL) {                                                \
-      st->begin = malloc(sizeof(*(st->begin)) + sizeof(st->begin->value));  \
-      st->begin->value = (0);                                               \
-      st->begin->next = NULL;                                               \
-      st->end = st->begin;                                                  \
-      i++;                                                                  \
-    }                                                                       \
-    while (i < _size) {                                                     \
-      st->end->next = malloc(sizeof(*(st->end)) + sizeof(st->end->value));  \
-      st->end = st->end->next;                                              \
-      st->end->value = (0);                                                 \
-      st->end->next = NULL;                                                 \
-      i++;                                                                  \
-    }                                                                       \
-    st->size = _size;                                                       \
-  }
-
-#define stack_is_empty(st) st->size == 0 ? 1 : 0
-
+// Due to in the stack_push a type doesn't available we shall use another method
+// of memory allocating. This method is fully described here:
+// https://en.wikipedia.org/wiki/Flexible_array_member
 #define stack_push(st, val)                                                  \
   {                                                                          \
     if (st) {                                                                \
@@ -229,36 +188,37 @@ void *stack_at_function(stack(any_type) * st, int index);
         st->size++;                                                          \
       }                                                                      \
     } else {                                                                 \
+      write_error_log(STACK_INACCESSIBILITY("stack_push(stack, value)"),     \
+                      __LINE__, __FILE__, "-> includes/stack.h:55");         \
       printf(                                                                \
-          "There is no stack. You must use the constructor before using "    \
-          "the stack_push.\nTo avoid any errors this program will "          \
-          "abort. "                                                          \
-          "Please press any key");                                           \
+          "Error has occured! Check error_log.txt for the more details.\n"   \
+          "Press any key");                                                  \
       return (getchar());                                                    \
     }                                                                        \
   }
 
-#define stack_clear(st)                                                   \
-  do {                                                                    \
-    if (st == NULL) {                                                     \
-      printf(                                                             \
-          "There is no stack. You must use the constructor before using " \
-          "the stack_push.\nTo avoid any errors this program will "       \
-          "abort. "                                                       \
-          "Please press any key");                                        \
-      return (getchar());                                                 \
-    }                                                                     \
-    if (st->begin != NULL) {                                              \
-      while (st->begin != NULL) {                                         \
-        void *temp = st->begin;                                           \
-        st->begin = st->begin->next;                                      \
-        free(temp);                                                       \
-      }                                                                   \
-      st->size = 0;                                                       \
-      st->end = NULL;                                                     \
-    } else {                                                              \
-      printf("Stack is already clear.");                                  \
-    }                                                                     \
-  } while (0)
+#define stack_empty(st) st->size == 0 ? 1 : 0
 
+#define stack_clear(st)                                                      \
+  do {                                                                       \
+    if (st == NULL) {                                                        \
+      write_error_log(STACK_INACCESSIBILITY("stack_clear(stack)"), __LINE__, \
+                      __FILE__, "-> includes/stack.h:55");                   \
+      printf(                                                                \
+          "Error has occured! Check error_log.txt for the more details.\n"   \
+          "Press any key");                                                  \
+      return (getchar());                                                    \
+    }                                                                        \
+    if (st->begin != NULL) {                                                 \
+      while (st->begin != NULL) {                                            \
+        void *temp = st->begin;                                              \
+        st->begin = st->begin->next;                                         \
+        free(temp);                                                          \
+      }                                                                      \
+      st->size = 0;                                                          \
+      st->end = NULL;                                                        \
+    } else {                                                                 \
+      printf("Stack is already clear.");                                     \
+    }                                                                        \
+  } while (0)
 #endif  // !

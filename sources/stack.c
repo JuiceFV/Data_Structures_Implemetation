@@ -19,6 +19,8 @@ void *stack_pop_function(stack(any_type) * st) {
       printf(
           "Error has occured! Check error_log.txt for the more details.\n"
           "Press any key");
+      stack_destructor(st);
+      _CrtDumpMemoryLeaks();
       exit(getchar());
     }
     void *result = st->end->value;
@@ -39,37 +41,6 @@ void *stack_pop_function(stack(any_type) * st) {
   } else {
     write_error_log(
         STACK_INACCESSIBILITY("stack_pop_function(stack(any_type) * stack)"),
-        __LINE__, __FILE__, "");
-    printf(
-        "Error has occured! Check error_log.txt for the more details.\n"
-        "Press any key");
-    exit(getchar());
-  }
-}
-
-void *stack_at_function(stack(any_type) * st, unsigned int index) {
-  if (st) {
-    if (st->begin == NULL) {
-      write_error_log(
-          ELEMENT_INACCESSIBILITY(
-              "stack_at_function(stack(any_type) * st, unsigned int index)"),
-          __LINE__, __FILE__, "");
-      printf(
-          "Error has occured! Check error_log.txt for the more details.\n"
-          "Press any key");
-      exit(getchar());
-    }
-    if ((index >= 0) && (index < st->size)) {
-      void *temp = st->begin;
-      while (st->begin && (index-- > 0)) st->begin = st->begin->next;
-      void *result = st->begin->value;
-      st->begin = temp;
-      return (result);
-    }
-  } else {
-    write_error_log(
-        STACK_INACCESSIBILITY(
-            "stack_at_function(stack(any_type) * st, unsigned int index)"),
         __LINE__, __FILE__, "");
     printf(
         "Error has occured! Check error_log.txt for the more details.\n"
