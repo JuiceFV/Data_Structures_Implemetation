@@ -1,8 +1,11 @@
 #ifndef _COMMON_H
 #define _COMMON_H
 
+// Uncomment if you want to use memory-leaks-checker
+/*
 #define _CRTDBG_MAP_ALLOC
 #include <crtdbg.h>
+*/
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -24,6 +27,10 @@
 
 #define STACK_EXISTANCE \
   "The stack already exists. You used constructor somewhere else."
+
+#define STACK_EMPTINESS                                                      \
+  "The stack already empty. Either you didn't push anything into the stack " \
+  "or you used stack_clear somewehre else."
 
 void write_error_log(const char* error_message, int line, const char* file,
                      const char* specific_dir);
