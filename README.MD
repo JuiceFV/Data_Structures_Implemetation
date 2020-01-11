@@ -3,9 +3,9 @@ My own implemetation all most famous Data Structures using standard C.
 
 | Data Structures | Based on Structures | Related Structures | Complexity | Check-List |
 |-----------------|---------------------|--------------------|------------|------------|
-| Stack           | Single Linked List  |                    |            |<ul><li>- [x] Done</li><li>- [x] Memeory Leaks</li><li>- [ ] Code optimization</li><li>- [x] Comments</li><ul>		   |
-| Queue           | Dynamic Arrays      |                    |            |<ul><li>- [ ] Done</li><li>- [ ] Memeory Leaks</li><li>- [ ] Code optimization</li><li>- [ ] Comments</li><ul>		   |
-| Tree            | Queue               |                    |            |<ul><li>- [ ] Done</li><li>- [ ] Memeory Leaks</li><li>- [ ] Code optimization</li><li>- [ ] Comments</li><ul>		   |
+| Stack           | Single Linked List  | <ul><li>- vector</li><li>- list</li><li>- Some trees</li><ul>|            |<ul><li>- [x] Done</li><li>- [x] Memeory Leaks</li><li>- [ ] Code optimization</li><li>- [x] Comments</li><ul>		   |
+| Queue           | Dynamic Arrays      | que                   |            |<ul><li>- [ ] Done</li><li>- [ ] Memeory Leaks</li><li>- [ ] Code optimization</li><li>- [ ] Comments</li><ul>		   |
+| Tree            | Queue/Stack               |                    |            |<ul><li>- [ ] Done</li><li>- [ ] Memeory Leaks</li><li>- [ ] Code optimization</li><li>- [ ] Comments</li><ul>		   |
 | Hash Map        | Dynamic Arrays      |                    |            |<ul><li>- [ ] Done</li><li>- [ ] Memeory Leaks</li><li>- [ ] Code optimization</li><li>- [ ] Comments</li><ul>		   |
 ## Table of Content
 - [Data Structures Implemetation](#data-structures-implemetation)
