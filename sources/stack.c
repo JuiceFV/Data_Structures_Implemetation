@@ -13,14 +13,13 @@
 void *stack_pop_function(stack(any_type) * st) {
   if (st) {
     if (st->begin == NULL) {
-      write_error_log(ELEMENT_INACCESSIBILITY(
-                          "stack_pop_function(stack(any_type) * stack)"),
-                      __LINE__, __FILE__, "");
+      write_error_log(
+          ELEMENT_INACCESSIBILITY("stack_pop_function(stack(any_type) * st)"),
+          __LINE__, __FILE__, "");
       printf(
           "Error has occured! Check error_log.txt for the more details.\n"
           "Press any key");
       stack_destructor(st);
-      _CrtDumpMemoryLeaks();
       exit(getchar());
     }
     void *result = st->end->value;
@@ -40,7 +39,7 @@ void *stack_pop_function(stack(any_type) * st) {
     return (result);
   } else {
     write_error_log(
-        STACK_INACCESSIBILITY("stack_pop_function(stack(any_type) * stack)"),
+        STACK_INACCESSIBILITY("stack_pop_function(stack(any_type) * st)"),
         __LINE__, __FILE__, "");
     printf(
         "Error has occured! Check error_log.txt for the more details.\n"
