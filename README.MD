@@ -48,8 +48,31 @@ For the build creation from the sources, you will needed in CMake. This util wil
 - CMake will configure the project in the "build" and you can work with it.
 ## Stack
 ### Usage
-|MSVC-compiler|GNUC-compiler|
-|-|-|
-|```c  <br/>int main()	{	return (0);	}	```| |
+Before CMake's usage you will need to create the main.c file. There is two a littile bit different implementation.
+**MSVS-Compiler**
+```c
+#include "./includes/stack.h"
+int main() {
+  stack(int)* a = NULL;
+  stack_constructor(int, a);
+  /*
+    Paste your code here
+  */
+  stack_destructor(a);
+  return (0);
+}
+```
+**GNUC-Compiler**
+```c
+#include "./includes/stack.h"
+int main() {
+  stack(int)* a = stack_constructor(int);
+  /*
+    Paste your code here
+  */
+  stack_destructor(a);
+  return (0);
+}
+```
 ## TODO
 - Optimize the code
