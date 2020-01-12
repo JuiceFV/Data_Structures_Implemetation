@@ -1,6 +1,8 @@
 # Data Structures Implemetation
 My own implemetation all most famous Data Structures using standard C.
 
+![Data Structures](https://media.geeksforgeeks.org/wp-content/uploads/20191010170332/Untitled-Diagram-183.png)
+
 | Data Structures | Based on Structures | Related Structures | Complexity | Check-List |
 |-----------------|---------------------|--------------------|------------|------------|
 | Stack           | Single Linked List  | <ul><li> Vector</li><li> List</li><li> Some trees</li><ul>|            |<ul><li>- [x] Done</li><li>- [x] Memeory Leaks</li><li>- [x] Code optimization</li><li>- [x] Comments</li><ul>		   |
@@ -14,8 +16,11 @@ My own implemetation all most famous Data Structures using standard C.
 		- [Prerequirements](#prerequirements)
 		- [Install](#install)
 	- [Stack](#stack)
+		- [Description](#description)
 		- [Usage](#usage)
 			- [Usage-Prerequirements](#usage-prerequirements)
+	- [Terms](#terms)
+	- [Links](#links)
 	- [TODO](#todo)
 ## Installation
 ### Prerequirements
@@ -48,6 +53,14 @@ For the build creation from the sources, you will needed in CMake. This util wil
 		> \> cmake [optional: -DCMAKE_BUILD_TYPE=Debug] ..
 - CMake will configure the project in the "build" and you can work with it.
 ## Stack
+### Description
+[Stack](https://en.wikipedia.org/wiki/Stack(abstract_data_type)) is a linear data structure in which elements are arranged in **LIFO (last in, first out)** order. It has two basic operations which are changes the stack, **push** and **pop**. Additionally it has **peek** operation.
+**push** - adds an element to the collection.
+**pop** - removes the most recently added element that was not yet removed.
+**peek** - gives access to the top without modifying the stack.
+
+![Stack image](https://upload.wikimedia.org/wikipedia/commons/b/b4/Lifo_stack.png)
+
 ### Usage
 #### Usage-Prerequirements
 Before CMake's usage you will need to create the main.c file. There are two a little bit different implementation.
@@ -77,5 +90,10 @@ int main() {
   return (0);
 }
 ```
+**Methods**
+## Terms
+- ***Linear data structures*** - It is a data structure where elements are arranged in an orderly manner where the elements are attached adjacently. 
+- ***Non-Linear data structures*** - It arranges the data in a sorted order and there exists a relationship between the data elements.
+## Links
 ## TODO
 - Optimize the code
