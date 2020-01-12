@@ -55,8 +55,11 @@ For the build creation from the sources, you will needed in CMake. This util wil
 ## Stack
 ### Description
 [Stack](https://en.wikipedia.org/wiki/Stack(abstract_data_type)) is a linear data structure in which elements are arranged in **LIFO (last in, first out)** order. It has two basic operations which are changes the stack, **push** and **pop**. Additionally it has **peek** operation.
+
 **push** - adds an element to the collection.
+
 **pop** - removes the most recently added element that was not yet removed.
+
 **peek** - gives access to the top without modifying the stack.
 
 ![Stack image](https://upload.wikimedia.org/wikipedia/commons/b/b4/Lifo_stack.png)
