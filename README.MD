@@ -16,7 +16,6 @@ This repository contains most famous Data Structures such as Stack, Queue, Tree,
 		- [Prerequirements](#prerequirements)
 		- [Install](#install)
 	- [Stack](#stack)
-		- [Description](#description)
 		- [Usage](#usage)
 			- [Usage-Prerequirements](#usage-prerequirements)
 			- [Methods](#methods)
@@ -65,7 +64,6 @@ For the build creation from the sources, you will needed in CMake. This util wil
 
 - CMake will configure the project in the "build" and you can work with it.
 ## Stack
-### Description
 [Stack](https://en.wikipedia.org/wiki/Stack(abstract_data_type)) is a linear data structure in which elements are arranged in **LIFO (last in, first out)** order. It has two basic operations which are changes the stack, **push** and **pop**. Additionally it has **peek** operation. I implemented this structure using single-linked-list.
 
 **push** - adds an element to the collection.
