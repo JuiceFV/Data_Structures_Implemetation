@@ -19,6 +19,8 @@ My own implemetation all most famous Data Structures using standard C.
 		- [Description](#description)
 		- [Usage](#usage)
 			- [Usage-Prerequirements](#usage-prerequirements)
+			- [Methods](#methods)
+			- [Errors and Undefined Behavior](#errors-and-undefined-behavior)
 	- [Terms](#terms)
 	- [Links](#links)
 	- [TODO](#todo)
@@ -41,20 +43,29 @@ For the build creation from the sources, you will needed in CMake. This util wil
 - Going there
 	> \> cd build
 - Now, let's build the project for any IDE that you want
-  - **If you woud like to pick another IDE**
-	- You can check the list of the available IDE
-		> \> cmake -G
-	- Now you will see the list of IDE. You can see the star beside an IDE name, it's a current IDE and the build will be making for this IDE. You can pick any IDE, which you like by typing this command. You can find more information [here](https://cmake.org/cmake/help/v3.0/manual/cmake-generators.7.html)
-		> \> cmake -G <ide-name\> ..
-	- The default build type is Release type, if you would like to pick the other type just use this command
-		> \> cmake -G <ide-name\> -DCMAKE_BUILD_TYPE=Debug ..
-  - **If the current IDE suit you**
-    - Just use this command. And as in the previous step you can change the build type
-		> \> cmake [optional: -DCMAKE_BUILD_TYPE=Debug] ..
+<details>
+  <summary><b>If you woud like to pick another IDE</b></summary>
+  <ul>
+	<li> You can check the list of the available IDE </li>
+		<blockquote>> cmake -G</blockquote>
+	<li> Now you will see the list of IDE. You can see the star beside an IDE name, it's a current IDE and the build will be making for this IDE. You can pick any IDE, which you like by typing this command. You can find more information <a href ="https://cmake.org/cmake/help/v3.0/manual/cmake-generators.7.html">here</a></li>
+		<blockquote>> cmake -G <ide-name\> ..</blockquote>
+	<li> The default build type is Release type, if you would like to pick the other type just use this command</li>
+		<blockquote>> cmake -G <ide-name\> -DCMAKE_BUILD_TYPE=Debug ..</blockquote>
+   </ul>
+</details>
+
+<details>
+<summary><b>If the current IDE suit you</b></summary>
+    <ul><li> Just use this command. And as in the previous step you can change the build type</li>
+		<blockquote>> cmake [optional: -DCMAKE_BUILD_TYPE=Debug] ..</blockquote>
+	</ul>
+</details>
+
 - CMake will configure the project in the "build" and you can work with it.
 ## Stack
 ### Description
-[Stack](https://en.wikipedia.org/wiki/Stack(abstract_data_type)) is a linear data structure in which elements are arranged in **LIFO (last in, first out)** order. It has two basic operations which are changes the stack, **push** and **pop**. Additionally it has **peek** operation.
+[Stack](https://en.wikipedia.org/wiki/Stack(abstract_data_type)) is a linear data structure in which elements are arranged in **LIFO (last in, first out)** order. It has two basic operations which are changes the stack, **push** and **pop**. Additionally it has **peek** operation. I implemented this structure using single-linked-list.
 
 **push** - adds an element to the collection.
 
@@ -67,8 +78,9 @@ For the build creation from the sources, you will needed in CMake. This util wil
 ### Usage
 #### Usage-Prerequirements
 Before CMake's usage you will need to create the main.c file. There are two a little bit different implementation.
+<details>
+<summary><b>MSVS-Compiler</b></summary>
 
-**MSVS-Compiler**
 ```c
 #include "./includes/stack.h"
 int main() {
@@ -81,7 +93,10 @@ int main() {
   return (0);
 }
 ```
-**GNUC-Compiler**
+</details>
+<details>
+<summary><b>GNUC-Compiler</b></summary>
+
 ```c
 #include "./includes/stack.h"
 int main() {
@@ -93,7 +108,20 @@ int main() {
   return (0);
 }
 ```
-**Methods**
+</details>
+#### Methods
+Basic stack-operations and their equivalent methods are listed here:
+|Method name|Command in the my implementation|Complexity|
+|-|-|-|
+|**push** |```stack_push(stack, value)``` |$\theta$(1) |
+|**pop** |```stack_pop(stack)``` |Basically, it's $\theta$(1) but in the my implementation it's $\theta$(n) due to single-linked-list usage|
+|**peek** |```stack_peek(stack)``` |$\theta$(1)|
+#### Errors and Undefined Behavior
+* First, definition two or more objects (it doesn't works for the MSVC). I didn't check with GNUC but I'm promise I'ill check it.
+```C
+stack(int) *a = NULL;
+stack(int) *b = NULL;
+```
 ## Terms
 - ***Linear data structures*** - It is a data structure where elements are arranged in an orderly manner where the elements are attached adjacently. 
 - ***Non-Linear data structures*** - It arranges the data in a sorted order and there exists a relationship between the data elements.
