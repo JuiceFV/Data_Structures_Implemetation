@@ -50,7 +50,7 @@ For the build creation from the sources, you will needed in CMake. This util wil
 ## Stack
 ### Usage
 #### Usage-Prerequirements
-Before CMake's usage you will need to create the main.c file. There is two a littile bit different implementation.
+Before CMake's usage you will need to create the main.c file. There are two a little bit different implementation.
 
 **MSVS-Compiler**
 ```c
