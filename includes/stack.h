@@ -232,4 +232,6 @@ void *stack_pop_function(stack(any_type) * st);
       return (getchar());                                                  \
     }                                                                      \
   } while (0)
+
+#define stack_peek(st) st->end->value
 #endif  // end of stack.h
