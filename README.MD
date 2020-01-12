@@ -29,7 +29,7 @@ For the build creation from the sources, you will needed in CMake. This util wil
 	- Now you have such hierarchy
   
 		![Working directory tree](https://user-images.githubusercontent.com/35202460/72209548-a4b65780-34c0-11ea-8fc7-8ce92447e345.png)
-- Create main.c [^1] [^2] in the current derictory
+- Create main.c[^1] in the current derictory
 - Now let's create folder called "build"
 	> \> mkdir build
 - And going there
@@ -49,7 +49,7 @@ For the build creation from the sources, you will needed in CMake. This util wil
 ## Stack
 ### Usage
 Before CMake's usage you will need to create the main.c file. There is two a littile bit different implementation.
-**MSVS-Compiler** [^1]
+**MSVS-Compiler**[^1]
 ```c
 #include "./includes/stack.h"
 int main() {
@@ -62,7 +62,7 @@ int main() {
   return (0);
 }
 ```
-**GNUC-Compiler** [^2]
+**GNUC-Compiler**
 ```c
 #include "./includes/stack.h"
 int main() {
