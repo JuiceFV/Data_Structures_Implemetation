@@ -23,18 +23,18 @@ void *stack_pop_function(stack(any_type) * st) {
       exit(getchar());
     }
     void *result = st->end->value;
-    if (st->begin == st->end) {
-      free(st->end);
-      st->begin = st->end = NULL;
+    if (st->begin != st->end) {
+      void *temp1 = st->begin;
+      while (st->begin->next != st->end) st->begin = st->begin->next;
+      st->end = st->begin;
+      st->begin = temp1;
+      free(st->end->next);
+      st->end->next = NULL;
       st->size--;
       return (result);
     }
-    void *temp1 = st->begin;
-    while (st->begin->next != st->end) st->begin = st->begin->next;
-    st->end = st->begin;
-    st->begin = temp1;
-    free(st->end->next);
-    st->end->next = NULL;
+    free(st->end);
+    st->begin = st->end = NULL;
     st->size--;
     return (result);
   } else {

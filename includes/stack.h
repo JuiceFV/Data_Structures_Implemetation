@@ -46,7 +46,7 @@
 // struct stack_T{size_t size; node(T) * begin, *end;}, where T is a type
 #define stack(T)           \
   struct stack_##T {       \
-    size_t size;           \
+    unsigned long size;    \
     node(T) * begin, *end; \
   }
 
@@ -143,17 +143,17 @@ void *stack_pop_function(stack(any_type) * st);
         return (getchar());                                                  \
       }                                                                      \
       result = st->end->value;                                               \
-      if (st->begin == st->end) {                                            \
-        free(st->end);                                                       \
-        st->begin = st->end = NULL;                                          \
-        st->size--;                                                          \
-      } else {                                                               \
+      if (st->begin != st->end) {                                            \
         void *temp1 = st->begin;                                             \
         while (st->begin->next != st->end) st->begin = st->begin->next;      \
         st->end = st->begin;                                                 \
         st->begin = temp1;                                                   \
         free(st->end->next);                                                 \
         st->end->next = NULL;                                                \
+        st->size--;                                                          \
+      } else {                                                               \
+        free(st->end);                                                       \
+        st->begin = st->end = NULL;                                          \
         st->size--;                                                          \
       }                                                                      \
     } else {                                                                 \
@@ -177,19 +177,17 @@ void *stack_pop_function(stack(any_type) * st);
 // first, otherwise push into the last.
 #define stack_push(st, val)                                                   \
   {                                                                           \
-    if (st) {                                                                 \
-      if (st->begin == NULL) {                                                \
-        st->begin = malloc(sizeof(*(st->begin)) + sizeof(st->begin->value));  \
-        st->begin->value = val;                                               \
-        st->begin->next = NULL;                                               \
-        st->end = st->begin;                                                  \
-        st->size++;                                                           \
-      } else {                                                                \
+    if (st && st->size++ < MAX_SIZE) {                                        \
+      if (st->begin) {                                                        \
         st->end->next = malloc(sizeof(*(st->end)) + sizeof(st->end->value));  \
         st->end = st->end->next;                                              \
         st->end->value = val;                                                 \
         st->end->next = NULL;                                                 \
-        st->size++;                                                           \
+      } else {                                                                \
+        st->begin = malloc(sizeof(*(st->begin)) + sizeof(st->begin->value));  \
+        st->begin->value = val;                                               \
+        st->begin->next = NULL;                                               \
+        st->end = st->begin;                                                  \
       }                                                                       \
     } else {                                                                  \
       write_error_log(STACK_INACCESSIBILITY("stack_push(st, val)"), __LINE__, \
@@ -210,7 +208,7 @@ void *stack_pop_function(stack(any_type) * st);
   do {                                                                     \
     if (st == NULL) {                                                      \
       write_error_log(STACK_INACCESSIBILITY("stack_clear(st)"), __LINE__,  \
-                      __FILE__, "-> includes/stack.h:211");                \
+                      __FILE__, "-> includes/stack.h:209");                \
       printf(                                                              \
           "Error has occured! Check error_log.txt for the more details.\n" \
           "Press any key");                                                \
@@ -226,7 +224,7 @@ void *stack_pop_function(stack(any_type) * st);
       st->end = NULL;                                                      \
     } else {                                                               \
       write_error_log(STACK_EMPTINESS, __LINE__, __FILE__,                 \
-                      "includes/stack.h:219");                             \
+                      "includes/stack.h:217");                             \
       printf(                                                              \
           "Error has occured! Check error_log.txt for the more details.\n" \
           "Press any key");                                                \

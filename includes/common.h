@@ -9,12 +9,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define MAX_SIZE LONG_MAX
+
 #define MALLOC_ERROR_MESSAGE                                                  \
   "This error has occured because malloc returned wrong value. Its "          \
   "could be for several reasons:\n1)You have exhausted heap memory. This is " \
   "possible if size of the stack is very large\n2)You have corrupted the "    \
   "heap. That could happen if there are errors in the code that you are "     \
-  "running."
+  "running. The other reason is size overflow, it occurs due the size of "    \
+  "the stack became bigger rather then MAX_SIZE"
 
 #define STACK_INACCESSIBILITY(function)                         \
   "This error has occured because there is no stack (stack == " \
