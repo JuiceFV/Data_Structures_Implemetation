@@ -5,7 +5,7 @@ This repository contains most famous Data Structures such as Stack, Queue, Tree,
 
 | Data Structures | Based on Structures | Related Structures | Complexity | Check-List |
 |-----------------|---------------------|--------------------|------------|------------|
-| Stack           | Single Linked List  | <ul><li> Vector</li><li> List</li><li> Some trees</li><ul>|<ul><li> Push: $\theta$(1)</li><li> Pop:  $\theta$(n)</li><li> Peek: $\theta$(1)</li><ul>            |<ul><li>- [x] Done</li><li>- [x] Memeory Leaks</li><li>- [x] Code optimization</li><li>- [x] Comments</li><ul>		   |
+| Stack           | Single Linked List  | <ul><li> Vector</li><li> List</li><li> Some trees</li><ul>|<ul><li> Push: O(1)</li><li> Pop:  O(n)</li><li> Peek: O(1)</li><ul>            |<ul><li>- [x] Done</li><li>- [x] Memeory Leaks</li><li>- [x] Code optimization</li><li>- [x] Comments</li><ul>		   |
 | Queue           | Dynamic Arrays      | <ul><li> Queue</li><li> Priority Queue</li><li> Some Trees</li><ul> |            |<ul><li>- [ ] Done</li><li>- [ ] Memeory Leaks</li><li>- [ ] Code optimization</li><li>- [ ] Comments</li><ul>		   |
 | Tree            | Queue/Stack               |                    |            |<ul><li>- [ ] Done</li><li>- [ ] Memeory Leaks</li><li>- [ ] Code optimization</li><li>- [ ] Comments</li><ul>		   |
 | Hash Map        | Dynamic Arrays      |                    |            |<ul><li>- [ ] Done</li><li>- [ ] Memeory Leaks</li><li>- [ ] Code optimization</li><li>- [ ] Comments</li><ul>		   |
@@ -114,9 +114,9 @@ Basic stack-operations and their equivalent methods are listed here:
 
 |Method name|Command in the my implementation|Complexity|
 |-|-|-|
-|**push** |```stack_push(stack, value)``` |$\theta$(1) |
-|**pop** |```stack_pop(stack)``` |Basically, it's $\theta$(1) but in the my implementation it's $\theta$(n) due to single-linked-list usage|
-|**peek** |```stack_peek(stack)``` |$\theta$(1)|
+|**push** |```stack_push(stack, value)``` |O(1) |
+|**pop** |```stack_pop(stack)``` |Basically, it's O(1) but in the my implementation it's O(n) due to single-linked-list usage|
+|**peek** |```stack_peek(stack)``` |O(1)|
 #### Errors and Undefined Behavior
 * First, definition two or more objects (it doesn't works for the MSVC). I didn't check with GNUC but I'm promise I'ill check it.
 ```C
