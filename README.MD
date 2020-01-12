@@ -112,6 +112,7 @@ int main() {
 
 #### Methods
 Basic stack-operations and their equivalent methods are listed here:
+
 |Method name|Command in the my implementation|Complexity|
 |-|-|-|
 |**push** |```stack_push(stack, value)``` |$\theta$(1) |
