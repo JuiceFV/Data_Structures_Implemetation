@@ -30,10 +30,10 @@ For the build creation from the sources, you will needed in CMake. This util wil
 	- Now you have such hierarchy
   
 		![Working directory tree](https://user-images.githubusercontent.com/35202460/72209548-a4b65780-34c0-11ea-8fc7-8ce92447e345.png)
-- Create main.c in the current derictory. Copy the code from [Usage-Prerequirements](#usage-prerequirements) according you compiler.
+- Create main.c in the current directory. Copy the code from the [Usage-Prerequirements](#usage-prerequirements) in your main.c according you compiler.
 - Now let's create folder called "build"
 	> \> mkdir build
-- And going there
+- Going there
 	> \> cd build
 - Now, let's build the project for any IDE that you want
   - **If you woud like to pick another IDE**
