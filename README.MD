@@ -3,7 +3,7 @@ My own implemetation all most famous Data Structures using standard C.
 
 | Data Structures | Based on Structures | Related Structures | Complexity | Check-List |
 |-----------------|---------------------|--------------------|------------|------------|
-| Stack           | Single Linked List  | <ul><li> Vector</li><li> List</li><li> Some trees</li><ul>|            |<ul><li>- [x] Done</li><li>- [x] Memeory Leaks</li><li>- [ ] Code optimization</li><li>- [x] Comments</li><ul>		   |
+| Stack           | Single Linked List  | <ul><li> Vector</li><li> List</li><li> Some trees</li><ul>|            |<ul><li>- [x] Done</li><li>- [x] Memeory Leaks</li><li>- [x] Code optimization</li><li>- [x] Comments</li><ul>		   |
 | Queue           | Dynamic Arrays      | <ul><li> Queue</li><li> Priority Queue</li><li> Some Trees</li><ul> |            |<ul><li>- [ ] Done</li><li>- [ ] Memeory Leaks</li><li>- [ ] Code optimization</li><li>- [ ] Comments</li><ul>		   |
 | Tree            | Queue/Stack               |                    |            |<ul><li>- [ ] Done</li><li>- [ ] Memeory Leaks</li><li>- [ ] Code optimization</li><li>- [ ] Comments</li><ul>		   |
 | Hash Map        | Dynamic Arrays      |                    |            |<ul><li>- [ ] Done</li><li>- [ ] Memeory Leaks</li><li>- [ ] Code optimization</li><li>- [ ] Comments</li><ul>		   |
@@ -14,6 +14,7 @@ My own implemetation all most famous Data Structures using standard C.
 		- [Prerequirements](#prerequirements)
 		- [Install](#install)
 	- [Stack](#stack)
+		- [Usage](#usage)
 	- [TODO](#todo)
 ## Installation
 ### Prerequirements
@@ -25,9 +26,10 @@ For the build creation from the sources, you will needed in CMake. This util wil
 	> \> git clone https://github.com/JuiceFV/Data_Structures_Implemetation.git Data_Structures_Imlementation
 - Go to the working derictory, which we have been cloned on previous step
 	> \> cd Data_Structures_Imlementation
-	- Now you have a such hierarchy
+	- Now you have such hierarchy
   
 		![Working directory tree](https://user-images.githubusercontent.com/35202460/72209548-a4b65780-34c0-11ea-8fc7-8ce92447e345.png)
+- Create main.c in the current derictory
 - Now let's create folder called "build"
 	> \> mkdir build
 - And going there
@@ -45,5 +47,15 @@ For the build creation from the sources, you will needed in CMake. This util wil
 		> \> cmake [optional: -DCMAKE_BUILD_TYPE=Debug] ..
 - CMake will configure the project in the "build" and you can work with it.
 ## Stack
+### Usage
+|MSVC-compiler|GNUC-compiler|
+|-|-|
+|
+```
+int main(){
+	return (0);
+}
+```
+| |
 ## TODO
 - Optimize the code
