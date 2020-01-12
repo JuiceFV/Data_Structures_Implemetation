@@ -233,5 +233,5 @@ void *stack_pop_function(stack(any_type) * st);
     }                                                                      \
   } while (0)
 
-#define stack_peek(st) st->end->value
+#define stack_peek(st) (st && st->end) ? st->end->value : NULL
 #endif  // end of stack.h
