@@ -1,11 +1,11 @@
 # Data Structures Implemetation
-My own implemetation all most famous Data Structures using standard C.
+This repository contains most famous Data Structures such as Stack, Queue, Tree, Hash Table etc. Due to I used different methods of implementation they might works a little bit slower. Also I tried to make something similar with C++ templates for the different types. For this purpose  I used ```#define``` macros and its operations, especially "##" (concatenation operation).
 
 ![Data Structures](https://media.geeksforgeeks.org/wp-content/uploads/20191010170332/Untitled-Diagram-183.png)
 
 | Data Structures | Based on Structures | Related Structures | Complexity | Check-List |
 |-----------------|---------------------|--------------------|------------|------------|
-| Stack           | Single Linked List  | <ul><li> Vector</li><li> List</li><li> Some trees</li><ul>|            |<ul><li>- [x] Done</li><li>- [x] Memeory Leaks</li><li>- [x] Code optimization</li><li>- [x] Comments</li><ul>		   |
+| Stack           | Single Linked List  | <ul><li> Vector</li><li> List</li><li> Some trees</li><ul>|<ul><li> Push: $\theta$(1)</li><li> Pop:  $\theta$(n)</li><li> Peek: $\theta$(1)</li><ul>            |<ul><li>- [x] Done</li><li>- [x] Memeory Leaks</li><li>- [x] Code optimization</li><li>- [x] Comments</li><ul>		   |
 | Queue           | Dynamic Arrays      | <ul><li> Queue</li><li> Priority Queue</li><li> Some Trees</li><ul> |            |<ul><li>- [ ] Done</li><li>- [ ] Memeory Leaks</li><li>- [ ] Code optimization</li><li>- [ ] Comments</li><ul>		   |
 | Tree            | Queue/Stack               |                    |            |<ul><li>- [ ] Done</li><li>- [ ] Memeory Leaks</li><li>- [ ] Code optimization</li><li>- [ ] Comments</li><ul>		   |
 | Hash Map        | Dynamic Arrays      |                    |            |<ul><li>- [ ] Done</li><li>- [ ] Memeory Leaks</li><li>- [ ] Code optimization</li><li>- [ ] Comments</li><ul>		   |
@@ -21,6 +21,7 @@ My own implemetation all most famous Data Structures using standard C.
 			- [Usage-Prerequirements](#usage-prerequirements)
 			- [Methods](#methods)
 			- [Errors and Undefined Behavior](#errors-and-undefined-behavior)
+	- [How To Contribute](#how-to-contribute)
 	- [Terms](#terms)
 	- [Links](#links)
 	- [TODO](#todo)
@@ -124,9 +125,17 @@ Basic stack-operations and their equivalent methods are listed here:
 stack(int) *a = NULL;
 stack(int) *b = NULL;
 ```
+## How To Contribute
+1. Clone repo and create a new branch:
+   >\> git checkout https://github.com/JuiceFV/Data_Structures_Implemetation.git -b name_for_new_branch
+2. Make changes and test
+3. Submit Pull Request with comprehensive description of changes
 ## Terms
 - ***Linear data structures*** - It is a data structure where elements are arranged in an orderly manner where the elements are attached adjacently. 
 - ***Non-Linear data structures*** - It arranges the data in a sorted order and there exists a relationship between the data elements.
 ## Links
+1. [Opaque pounters vs Macro templates](https://www.embedded.com/template-meta-programming-in-c-vs-opaque-pointer/)
+2. [Templates onto C](https://habr.com/ru/post/154811/) (Russian lang.)
+3. [Template queue using C](https://tiehu.is/blog/c1)
 ## TODO
-- Optimize the code
+- Queue Implementation
