@@ -15,6 +15,7 @@ My own implemetation all most famous Data Structures using standard C.
 		- [Install](#install)
 	- [Stack](#stack)
 		- [Usage](#usage)
+			- [Usage-Prerequirements](#usage-prerequirements)
 	- [TODO](#todo)
 ## Installation
 ### Prerequirements
@@ -29,7 +30,7 @@ For the build creation from the sources, you will needed in CMake. This util wil
 	- Now you have such hierarchy
   
 		![Working directory tree](https://user-images.githubusercontent.com/35202460/72209548-a4b65780-34c0-11ea-8fc7-8ce92447e345.png)
-- Create main.c[^1] in the current derictory
+- Create main.c in the current derictory. Copy the code from [Usage-Prerequirements](#usage-prerequirements) according you compiler.
 - Now let's create folder called "build"
 	> \> mkdir build
 - And going there
@@ -48,8 +49,10 @@ For the build creation from the sources, you will needed in CMake. This util wil
 - CMake will configure the project in the "build" and you can work with it.
 ## Stack
 ### Usage
+#### Usage-Prerequirements
 Before CMake's usage you will need to create the main.c file. There is two a littile bit different implementation.
-**MSVS-Compiler**[^1]
+
+**MSVS-Compiler**
 ```c
 #include "./includes/stack.h"
 int main() {
