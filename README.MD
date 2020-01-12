@@ -50,12 +50,6 @@ For the build creation from the sources, you will needed in CMake. This util wil
 ### Usage
 |MSVC-compiler|GNUC-compiler|
 |-|-|
-|
-```
-int main(){
-	return (0);
-}
-```
-| |
+|```int main(){return (0);}```| |
 ## TODO
 - Optimize the code
