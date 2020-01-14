@@ -35,6 +35,12 @@
   "The stack already empty. Either you didn't push anything into the stack " \
   "or you used stack_clear somewehre else."
 
+#define QUEUE_INACCESSIBILITY(function)                         \
+  "This error has occured because there is no queue (queue == " \
+  "NULL).\nYou must use the constructor before using the " function "."
+
+#define QUEUE_EXISTANCE \
+  "The queue already exists. You used constructor somewhere else."
 void write_error_log(const char* error_message, int line, const char* file,
                      const char* specific_dir);
 #endif
