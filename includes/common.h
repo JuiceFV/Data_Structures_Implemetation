@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX_SIZE LONG_MAX
+#define MAX_SIZE 4294957295
 
 #define MALLOC_ERROR_MESSAGE                                                  \
   "This error has occured because malloc returned wrong value. Its "          \
