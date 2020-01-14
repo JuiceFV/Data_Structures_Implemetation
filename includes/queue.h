@@ -33,12 +33,12 @@
     }                                                                      \
   }
 #elif defined(__GNUC__)
-#define queue_constructor(T, qu)                              \
-  ({                                                          \
-    queue_##T *qu = malloc(sizeof(queue(T)) + sizeof(T) * 0); \
-    qu->size = 0;                                             \
-    qu->values = NULL;                                        \
-    qu;                                                       \
+#define queue_constructor(T, qu)                                     \
+  ({                                                                 \
+    struct queue_##T *qu = malloc(sizeof(queue(T)) + sizeof(T) * 0); \
+    qu->size = 0;                                                    \
+    qu->values = NULL;                                               \
+    qu;                                                              \
   })
 
 #endif
