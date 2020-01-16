@@ -17,7 +17,7 @@ message("${PROJECT_NAME} version: ${${PROJECT_NAME}_VERSION}")
 
 # variables for the library
 # stack source-files
-set(${PROJECT_NAME}_stack_source "sources/stack.c")
+set(${PROJECT_NAME}_queue_source "sources/queue.c")
 set(${PROJECT_NAME}_includes "includes/stack.h" "includes/common.h" "includes/queue.h")
 set(${PROJECT_NAME}_commin_source "sources/common.c")
 
@@ -25,7 +25,7 @@ set(${PROJECT_NAME}_commin_source "sources/common.c")
 set(${PROJECT_NAME}_main "main.c")
 
 # adding library toward the project
-add_library(Data_Structures STATIC  ${${PROJECT_NAME}_stack_source} ${${PROJECT_NAME}_commin_source} ${${PROJECT_NAME}_includes})
+add_library(Data_Structures STATIC  ${${PROJECT_NAME}_queue_source} ${${PROJECT_NAME}_commin_source} ${${PROJECT_NAME}_includes})
 target_include_directories(Data_Structures PUBLIC "${PROJECT_SOURCE_DIR}/includes")
 
 # adding executable
