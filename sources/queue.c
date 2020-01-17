@@ -27,7 +27,7 @@ void* queue_dequeue_function(queue(any_type) * qu) {
       return (result);
     }
     free(qu->end);
-    qu->end = NULL;
+    qu->end = qu->begin = NULL;
     qu->size--;
     return (result);
   } else {

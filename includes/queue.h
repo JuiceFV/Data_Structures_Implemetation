@@ -125,7 +125,7 @@ void *queue_dequeue_function(queue(any_type) * qu);
 
 #define queue_dequeue(qu)                                                    \
   ({                                                                         \
-    typeof(qu->begin->value) result;                                                            \
+    typeof(qu->begin->value) result;                                         \
     if (qu) {                                                                \
       if (qu->begin == NULL) {                                               \
         write_error_log(QUEUE_ELEMENT_INACCESSIBILITY("queue_dequeue(qu)"),  \
@@ -221,12 +221,13 @@ void *queue_dequeue_function(queue(any_type) * qu);
       return (getchar());                                                  \
     }                                                                      \
     if (qu->begin != NULL) {                                               \
-      while (qu->begin != NULL) {                                          \
+      while (qu->begin->next != NULL) {                                    \
         qu->begin = qu->begin->next;                                       \
-        free(qu->begin->prev);                                                    \
+        free(qu->begin->prev);                                             \
       }                                                                    \
+      free(qu->begin);                                                     \
       qu->size = 0;                                                        \
-      qu->end = NULL;                                                      \
+      qu->end = qu->begin = NULL;                                          \
     } else {                                                               \
       write_error_log(QUEUE_EMPTINESS, __LINE__, __FILE__,                 \
                       "includes/queue.h:223");                             \
