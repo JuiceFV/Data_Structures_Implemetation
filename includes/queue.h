@@ -125,7 +125,7 @@ void *queue_dequeue_function(queue(any_type) * qu);
 
 #define queue_dequeue(qu)                                                    \
   ({                                                                         \
-    void *result;                                                            \
+    typeof(qu->begin->value) result;                                                            \
     if (qu) {                                                                \
       if (qu->begin == NULL) {                                               \
         write_error_log(QUEUE_ELEMENT_INACCESSIBILITY("queue_dequeue(qu)"),  \
@@ -190,7 +190,7 @@ void *queue_dequeue_function(queue(any_type) * qu);
         printf(                                                                \
             "Error has occured! Check error_log.txt for the more details.\n"   \
             "Press any key");                                                  \
-        queue_destructor(st);                                                  \
+        queue_destructor(qu);                                                  \
         return (getchar());                                                    \
       }                                                                        \
     } else {                                                                   \
@@ -223,7 +223,7 @@ void *queue_dequeue_function(queue(any_type) * qu);
     if (qu->begin != NULL) {                                               \
       while (qu->begin != NULL) {                                          \
         qu->begin = qu->begin->next;                                       \
-        free(qu->prev);                                                    \
+        free(qu->begin->prev);                                                    \
       }                                                                    \
       qu->size = 0;                                                        \
       qu->end = NULL;                                                      \

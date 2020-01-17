@@ -39,7 +39,7 @@
 // You can read more about this here:
 // https://docs.microsoft.com/en-us/cpp/preprocessor/token-pasting-operator-hash-hash?view=vs-2019
 #define stack(T)        \
-  struct node_##T {     \
+  struct stack_##T {     \
     unsigned long size; \
     T values[];         \
   }
