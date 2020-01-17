@@ -136,4 +136,5 @@ stack(int) *b = NULL;
 2. [Templates onto C](https://habr.com/ru/post/154811/) (Russian lang.)
 3. [Template queue using C](https://tiehu.is/blog/c1)
 ## TODO
-- Queue Implementation
+- Hash Map Implementation
+- Rewrite README
