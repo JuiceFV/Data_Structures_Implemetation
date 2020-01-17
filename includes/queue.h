@@ -62,11 +62,10 @@
       free(qu);                                                                \
     } else {                                                                   \
       write_error_log(QUEUE_INACCESSIBILITY("queue_destructor(qu)"), __LINE__, \
-                      __FILE__, "-> includes/queue.h:37");                     \
+                      __FILE__, "-> includes/queue.h:53");                     \
       printf(                                                                  \
           "Error has occured! Check error_log.txt for the more details.\n"     \
           "Press any key");                                                    \
-      _CrtDumpMemoryLeaks();                                                   \
       return (getchar());                                                      \
     }                                                                          \
   }
@@ -81,11 +80,10 @@
     if (qu == NULL) {                                                        \
       if (!(qu = malloc(sizeof(queue(T))))) {                                \
         write_error_log(MALLOC_ERROR_MESSAGE, __LINE__, __FILE__,            \
-                        "-> includes/queue.h:64");                           \
+                        "-> includes/queue.h:81");                           \
         printf(                                                              \
             "Error has occured! Check error_log.txt for the more details.\n" \
             "Press any key");                                                \
-        _CrtDumpMemoryLeaks();                                               \
         return (getchar());                                                  \
       }                                                                      \
       qu->begin = NULL;                                                      \
@@ -93,18 +91,17 @@
       qu->size = 0;                                                          \
     } else {                                                                 \
       write_error_log(QUEUE_EXISTANCE, __LINE__, __FILE__,                   \
-                      "-> includes/queue.h:63");                             \
+                      "-> includes/queue.h:80");                             \
       printf(                                                                \
           "Error has occured! Check error_log.txt for the more details.\n"   \
           "Press any key");                                                  \
       queue_destructor(qu);                                                  \
-      _CrtDumpMemoryLeaks();                                                 \
       return (getchar());                                                    \
     }                                                                        \
   } while (0)
 
-// Due to there is no way to use such notation queue(void *). Its demands the
-// typedef. The pop function will be described in queue.c
+// Due to there is no way to use such notation queue(void *). It demands the
+// typedef. The dequeue function will be described in queue.c
 void *queue_dequeue_function(queue(any_type) * qu);
 #define queue_dequeue(qu) queue_dequeue_function(qu)
 // GNUC-compiler implementation begins
@@ -114,7 +111,7 @@ void *queue_dequeue_function(queue(any_type) * qu);
     struct queue_##T *qu;                                                  \
     if (!(qu = malloc(sizeof(queue(T))))) {                                \
       write_error_log(MALLOC_ERROR_MESSAGE, __LINE__, __FILE__,            \
-                      "-> includes/queue.h:118");                          \
+                      "-> includes/queue.h:112");                          \
       printf(                                                              \
           "Error has occured! Check error_log.txt for the more details.\n" \
           "Press any key");                                                \
@@ -132,7 +129,7 @@ void *queue_dequeue_function(queue(any_type) * qu);
     if (qu) {                                                                \
       if (qu->begin == NULL) {                                               \
         write_error_log(QUEUE_ELEMENT_INACCESSIBILITY("queue_dequeue(qu)"),  \
-                        __LINE__, __FILE__, "-> includes/queue.h:136");      \
+                        __LINE__, __FILE__, "-> includes/queue.h:130");      \
         printf(                                                              \
             "Error has occured! Check error_log.txt for the more details.\n" \
             "Press any key");                                                \
@@ -153,7 +150,7 @@ void *queue_dequeue_function(queue(any_type) * qu);
       }                                                                      \
     } else {                                                                 \
       write_error_log(QUEUE_INACCESSIBILITY("queue_dequeue(qu)"), __LINE__,  \
-                      __FILE__, "-> includes/queue.h:135");                  \
+                      __FILE__, "-> includes/queue.h:129");                  \
       printf(                                                                \
           "Error has occured! Check error_log.txt for the more details.\n"   \
           "Press any key");                                                  \
@@ -189,20 +186,19 @@ void *queue_dequeue_function(queue(any_type) * qu);
         }                                                                      \
       } else {                                                                 \
         write_error_log(QUEUE_OVERFLOW, __LINE__, __FILE__,                    \
-                        "-> includes/queue.h:152");                            \
+                        "-> includes/queue.h:172");                            \
         printf(                                                                \
             "Error has occured! Check error_log.txt for the more details.\n"   \
             "Press any key");                                                  \
-        _CrtDumpMemoryLeaks();                                                 \
+        queue_destructor(st);                                                  \
         return (getchar());                                                    \
       }                                                                        \
     } else {                                                                   \
       write_error_log(QUEUE_INACCESSIBILITY("queue_enqueue(qu, val)"),         \
-                      __LINE__, __FILE__, "-> includes/queue.h:150");          \
+                      __LINE__, __FILE__, "-> includes/queue.h:171");          \
       printf(                                                                  \
           "Error has occured! Check error_log.txt for the more details.\n"     \
           "Press any key");                                                    \
-      _CrtDumpMemoryLeaks();                                                   \
       return (getchar());                                                      \
     }                                                                          \
   }
@@ -218,11 +214,10 @@ void *queue_dequeue_function(queue(any_type) * qu);
   do {                                                                     \
     if (qu == NULL) {                                                      \
       write_error_log(QUEUE_INACCESSIBILITY("queue_clear(qu)"), __LINE__,  \
-                      __FILE__, "-> includes/queue.h:209");                \
+                      __FILE__, "-> includes/queue.h:215");                \
       printf(                                                              \
           "Error has occured! Check error_log.txt for the more details.\n" \
           "Press any key");                                                \
-      _CrtDumpMemoryLeaks();                                               \
       return (getchar());                                                  \
     }                                                                      \
     if (qu->begin != NULL) {                                               \
@@ -234,12 +229,11 @@ void *queue_dequeue_function(queue(any_type) * qu);
       qu->end = NULL;                                                      \
     } else {                                                               \
       write_error_log(QUEUE_EMPTINESS, __LINE__, __FILE__,                 \
-                      "includes/queue.h:217");                             \
+                      "includes/queue.h:223");                             \
       printf(                                                              \
           "Error has occured! Check error_log.txt for the more details.\n" \
           "Press any key");                                                \
       queue_destructor(qu);                                                \
-      _CrtDumpMemoryLeaks();                                               \
       return (getchar());                                                  \
     }                                                                      \
   } while (0)

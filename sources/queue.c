@@ -16,7 +16,6 @@ void* queue_dequeue_function(queue(any_type) * qu) {
           "Error has occured! Check error_log.txt for the more details.\n"
           "Press any key");
       queue_destructor(qu);
-      _CrtDumpMemoryLeaks();
       exit(getchar());
     }
     void* result = qu->end->value;
@@ -38,7 +37,6 @@ void* queue_dequeue_function(queue(any_type) * qu) {
     printf(
         "Error has occured! Check error_log.txt for the more details.\n"
         "Press any key");
-    _CrtDumpMemoryLeaks();
     exit(getchar());
   }
 }

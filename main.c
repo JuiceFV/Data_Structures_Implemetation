@@ -12,6 +12,5 @@ int main() {
     stack_push(a, 2);
     printf("%d", stack_pop(a));
     stack_destructor(a);
-    _CrtDumpMemoryLeaks();
   return (0);
 }

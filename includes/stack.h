@@ -65,7 +65,6 @@
         printf(                                                              \
             "Error has occured! Check error_log.txt for the more details.\n" \
             "Press any key");                                                \
-        _CrtDumpMemoryLeaks();                                               \
         return (getchar());                                                  \
       }                                                                      \
       st->size = 0;                                                          \
@@ -76,7 +75,6 @@
           "Error has occured! Check error_log.txt for the more details.\n"   \
           "Press any key");                                                  \
       stack_destructor(st);                                                  \
-      _CrtDumpMemoryLeaks();                                                 \
       return (getchar());                                                    \
     }                                                                        \
   }
@@ -117,7 +115,6 @@
             "Error has occured! Check error_log.txt for the more details.\n"   \
             "Press any key");                                                  \
         stack_destructor(st);                                                  \
-        _CrtDumpMemoryLeaks();                                                 \
         return (getchar());                                                    \
       }                                                                        \
     } else {                                                                   \
@@ -126,7 +123,6 @@
       printf(                                                                  \
           "Error has occured! Check error_log.txt for the more details.\n"     \
           "Press any key");                                                    \
-      _CrtDumpMemoryLeaks();                                                   \
       return (getchar());                                                      \
     }                                                                          \
   }
@@ -151,7 +147,6 @@
             "Error has occured! Check error_log.txt for the more details.\n" \
             "Press any key");                                                \
         stack_destructor(st);                                                \
-        _CrtDumpMemoryLeaks();                                               \
         return (getchar());                                                  \
       }                                                                      \
       st = realloc(st, sizeof(st->size));                                    \
@@ -162,7 +157,6 @@
       printf(                                                                \
           "Error has occured! Check error_log.txt for the more details.\n"   \
           "Press any key");                                                  \
-      _CrtDumpMemoryLeaks();                                                 \
       return (getchar());                                                    \
     }                                                                        \
   } while (0)
