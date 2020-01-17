@@ -1,21 +1,17 @@
 #include "./includes/stack.h"
 #include "./includes/queue.h"
-typedef char* string;
+
 int main() {
-    queue(string)* a = NULL;
-    queue_constructor(string, a);
-    queue_enqueue(a, "Daun");
-    queue_enqueue(a, "Pizdec");
-    queue_enqueue(a, "Ahahahaha");
-    queue_enqueue(a, "Dolboeb");
-    queue_enqueue(a, "Sanya");
-    printf("%s ", queue_dequeue(a));
-    printf("%s ", queue_dequeue(a));
-    printf("%s ", queue_dequeue(a));
-    printf("%s ", queue_dequeue(a));
-    printf("%s ", queue_dequeue(a));
-    queue_enqueue(a, "Sanya");
-    queue_destructor(a);
+    stack(int)* a = NULL;
+    stack_constructor(int, a);
+    stack_push(a, 7);
+    stack_push(a, 6);
+    stack_push(a, 5);
+    stack_push(a, 4);
+    stack_push(a, 3);
+    stack_push(a, 2);
+    printf("%d", stack_pop(a));
+    stack_destructor(a);
     _CrtDumpMemoryLeaks();
   return (0);
 }

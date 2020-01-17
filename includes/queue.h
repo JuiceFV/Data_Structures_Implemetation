@@ -1,16 +1,18 @@
 /*
     <QUEUE DATA STRUCTURE>
     What is queue ?
-    -It is type of linear data structure.
+    - It is type of linear data structure.
     - It follows FIFO(First In First Out) property.
-    - Insertion in queue can only be done from top only. 
+    - Insertion in queue can only be done from top only.
     - Deletion from queue can only be done from end only.
     - Insertion in queue is also known as a ENQUEUE operation.
     - Deletion from queue is also known as DEQUEUE operation in queue.
     Queue Implementation
-    - Queue implementation using array. 
+    - Queue implementation using array.
     - Queue implementation using linked list. (I used)
 */
+// Also I would note that I can't (I don't know if I will find a sulution then I
+// will fix it) implement some behavior due to MSVC-compiler
 #ifndef _QUEUE
 #define _QUEUE
 
@@ -64,6 +66,7 @@
       printf(                                                                  \
           "Error has occured! Check error_log.txt for the more details.\n"     \
           "Press any key");                                                    \
+      _CrtDumpMemoryLeaks();                                                   \
       return (getchar());                                                      \
     }                                                                          \
   }
@@ -82,6 +85,7 @@
         printf(                                                              \
             "Error has occured! Check error_log.txt for the more details.\n" \
             "Press any key");                                                \
+        _CrtDumpMemoryLeaks();                                               \
         return (getchar());                                                  \
       }                                                                      \
       qu->begin = NULL;                                                      \
@@ -94,13 +98,13 @@
           "Error has occured! Check error_log.txt for the more details.\n"   \
           "Press any key");                                                  \
       queue_destructor(qu);                                                  \
+      _CrtDumpMemoryLeaks();                                                 \
       return (getchar());                                                    \
     }                                                                        \
   } while (0)
 
 // Due to there is no way to use such notation queue(void *). Its demands the
 // typedef. The pop function will be described in queue.c
-typedef void *any_type;
 void *queue_dequeue_function(queue(any_type) * qu);
 #define queue_dequeue(qu) queue_dequeue_function(qu)
 // GNUC-compiler implementation begins
@@ -189,6 +193,7 @@ void *queue_dequeue_function(queue(any_type) * qu);
         printf(                                                                \
             "Error has occured! Check error_log.txt for the more details.\n"   \
             "Press any key");                                                  \
+        _CrtDumpMemoryLeaks();                                                 \
         return (getchar());                                                    \
       }                                                                        \
     } else {                                                                   \
@@ -197,6 +202,7 @@ void *queue_dequeue_function(queue(any_type) * qu);
       printf(                                                                  \
           "Error has occured! Check error_log.txt for the more details.\n"     \
           "Press any key");                                                    \
+      _CrtDumpMemoryLeaks();                                                   \
       return (getchar());                                                      \
     }                                                                          \
   }
@@ -216,6 +222,7 @@ void *queue_dequeue_function(queue(any_type) * qu);
       printf(                                                              \
           "Error has occured! Check error_log.txt for the more details.\n" \
           "Press any key");                                                \
+      _CrtDumpMemoryLeaks();                                               \
       return (getchar());                                                  \
     }                                                                      \
     if (qu->begin != NULL) {                                               \
@@ -232,6 +239,7 @@ void *queue_dequeue_function(queue(any_type) * qu);
           "Error has occured! Check error_log.txt for the more details.\n" \
           "Press any key");                                                \
       queue_destructor(qu);                                                \
+      _CrtDumpMemoryLeaks();                                               \
       return (getchar());                                                  \
     }                                                                      \
   } while (0)

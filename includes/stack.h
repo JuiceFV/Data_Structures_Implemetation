@@ -20,6 +20,8 @@
     More information you can find here:
     https://en.wikipedia.org/wiki/Stack_(abstract_data_type)
 */
+// Also I would note that I can't (I don't know if I will find a sulution then I
+// will fix it) implement some behavior due to MSVC-compiler
 #ifndef _STACK
 #define _STACK
 
@@ -42,32 +44,39 @@
     T values[];         \
   }
 
-// Freeing whole stack including "size"
+// Freeing memory which were allocated for the stack.
 #define stack_destructor(st) free(st)
 
 // Splitting into two implementations due to the variety of compilers. However,
 // the basic logic is the same.
 #if defined(_MSC_VER)
-// The constructor is allocating memory for the stack and zeroing "size" -
-// field. Otherwise it writes the error into error_logs.txt
+// Constructor is allocating memory for the stack and zeroing "size"-field.
+// Otherwise it writes the error into error_logs.txt.
+// There are two possible errors:
+// 1) The stack "st" already exists. It means that the constructor has been used
+// somewhere else.
+// 2) Malloc can't allocate the memory for the stack "st" for some reason.
 #define stack_constructor(T, st)                                             \
   {                                                                          \
     if (st == NULL) {                                                        \
       if (!(st = malloc(sizeof(stack(T))))) {                                \
         write_error_log(MALLOC_ERROR_MESSAGE, __LINE__, __FILE__,            \
-                        "-> includes/stack.h:56");                           \
+                        "-> includes/stack.h:61");                           \
         printf(                                                              \
             "Error has occured! Check error_log.txt for the more details.\n" \
             "Press any key");                                                \
+        _CrtDumpMemoryLeaks();                                               \
         return (getchar());                                                  \
       }                                                                      \
       st->size = 0;                                                          \
     } else {                                                                 \
       write_error_log(STACK_EXISTANCE, __LINE__, __FILE__,                   \
-                      "includes/stack.h:55");                                \
+                      "includes/stack.h:60");                                \
       printf(                                                                \
           "Error has occured! Check error_log.txt for the more details.\n"   \
           "Press any key");                                                  \
+      stack_destructor(st);                                                  \
+      _CrtDumpMemoryLeaks();                                                 \
       return (getchar());                                                    \
     }                                                                        \
   }
@@ -79,7 +88,7 @@
     struct stack_##T *st;                                                  \
     if (!(st = malloc(sizeof(stack(T))))) {                                \
       write_error_log(MALLOC_ERROR_MESSAGE, __LINE__, __FILE__,            \
-                      "-> includes/stack.h:80");                           \
+                      "-> includes/stack.h:85");                           \
       printf(                                                              \
           "Error has occured! Check error_log.txt for the more details.\n" \
           "Press any key");                                                \
@@ -88,6 +97,7 @@
     st->size = 0;                                                          \
     st;                                                                    \
   })
+
 #endif  // end compiler-split implimentation
 
 // Due to in the stack_push a type doesn't available we shall use another method
@@ -102,18 +112,21 @@
         st->values[st->size++] = (val);                                        \
       } else {                                                                 \
         write_error_log(STACK_OVERFLOW, __LINE__, __FILE__,                    \
-                        "-> includes/stack.h:99");                             \
+                        "-> includes/stack.h:104");                            \
         printf(                                                                \
             "Error has occured! Check error_log.txt for the more details.\n"   \
             "Press any key");                                                  \
+        stack_destructor(st);                                                  \
+        _CrtDumpMemoryLeaks();                                                 \
         return (getchar());                                                    \
       }                                                                        \
     } else {                                                                   \
       write_error_log(STACK_INACCESSIBILITY("stack_push(st, val)"), __LINE__,  \
-                      __FILE__, "-> includes/stack.h:98");                     \
+                      __FILE__, "-> includes/stack.h:103");                    \
       printf(                                                                  \
           "Error has occured! Check error_log.txt for the more details.\n"     \
           "Press any key");                                                    \
+      _CrtDumpMemoryLeaks();                                                   \
       return (getchar());                                                      \
     }                                                                          \
   }
@@ -125,22 +138,33 @@
 // Check for the stack emptiness
 #define stack_empty(st) st->size == 0 ? 1 : 0
 
-// Stack clear is the method which clears values but it doesn't clears
+// Stack-clear is the method which clears values but it doesn't clears
 // whole stack. Check for stack and first element availability. If both true
-// then remove node by node.
-#define stack_clear(st)                                                    \
-  do {                                                                     \
-    if (st) {                                                              \
-      st = realloc(st, sizeof(st->size));                                  \
-      st->size = 0;                                                        \
-    } else {                                                               \
-      write_error_log(STACK_INACCESSIBILITY("stack_clear(st)"), __LINE__,  \
-                      __FILE__, "-> includes/stack.h:130");                \
-      printf(                                                              \
-          "Error has occured! Check error_log.txt for the more details.\n" \
-          "Press any key");                                                \
-      return (getchar());                                                  \
-    }                                                                      \
+// then removes values.
+#define stack_clear(st)                                                      \
+  do {                                                                       \
+    if (st) {                                                                \
+      if (st->size == 0) {                                                   \
+        write_error_log(STACK_EMPTINESS, __LINE__, __FILE__,                 \
+                        "-> includes/stack.h:139");                          \
+        printf(                                                              \
+            "Error has occured! Check error_log.txt for the more details.\n" \
+            "Press any key");                                                \
+        stack_destructor(st);                                                \
+        _CrtDumpMemoryLeaks();                                               \
+        return (getchar());                                                  \
+      }                                                                      \
+      st = realloc(st, sizeof(st->size));                                    \
+      st->size = 0;                                                          \
+    } else {                                                                 \
+      write_error_log(STACK_INACCESSIBILITY("stack_clear(st)"), __LINE__,    \
+                      __FILE__, "-> includes/stack.h:138");                  \
+      printf(                                                                \
+          "Error has occured! Check error_log.txt for the more details.\n"   \
+          "Press any key");                                                  \
+      _CrtDumpMemoryLeaks();                                                 \
+      return (getchar());                                                    \
+    }                                                                        \
   } while (0)
 
 // Stack-peek returns the last value of the stack but it doesn't reduces the

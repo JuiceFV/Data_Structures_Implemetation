@@ -7,11 +7,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+typedef void* any_type;
+
 // This is the max of the unsigned long (int) value.
 // If you would to change the type of the size, therefore you should change the
 // MAX_SIZE
 #define MAX_SIZE 4294967295
 
+// This error will occur when malloc will return NULL. 
 #define MALLOC_ERROR_MESSAGE                                                  \
   "This error has occured because malloc returned wrong value. Its "          \
   "could be for several reasons:\n1)You have exhausted heap memory. This is " \
@@ -19,6 +22,7 @@
   "heap. That could happen if there are errors in the code that you are "     \
   "running."
 
+// This  error will occur when stack doesn't exists. Especially when stack == NULL.
 #define STACK_INACCESSIBILITY(function)                         \
   "This error has occured because there is no stack (stack == " \
   "NULL).\nYou must use the constructor before using the " function "."
