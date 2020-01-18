@@ -5,8 +5,8 @@ This repository contains most famous Data Structures such as Stack, Queue, Tree,
 
 | Data Structures | Based on Structures | Related Structures | Complexity | Check-List |
 |-----------------|---------------------|--------------------|------------|------------|
-| Stack           | Single Linked List  | <ul><li> Vector</li><li> List</li><li> Some trees</li><ul>|<ul><li> Push: O(1)</li><li> Pop:  O(n)</li><li> Peek: O(1)</li><ul>            |<ul><li>- [x] Done</li><li>- [x] Memeory Leaks</li><li>- [x] Code optimization</li><li>- [x] Comments</li><ul>		   |
-| Queue           | Dynamic Arrays      | <ul><li> Queue</li><li> Priority Queue</li><li> Some Trees</li><ul> |            |<ul><li>- [ ] Done</li><li>- [ ] Memeory Leaks</li><li>- [ ] Code optimization</li><li>- [ ] Comments</li><ul>		   |
+| Stack           | Dynamic Arrays  | <ul><li> Vector</li><li> List</li><li> Some trees</li><ul>|<ul><li> Push: O(1)</li><li> Pop:  O(1)</li><li> Peek: O(1)</li><ul>            |<ul><li>- [x] Done</li><li>- [x] Memeory Leaks</li><li>- [x] Code optimization</li><li>- [x] Explanatory Comments</li><ul>		   |
+| Queue           | Double-Linked List      | <ul><li> Queue</li><li> Priority Queue</li><li> Some Trees</li><ul> |<ul><li> Enqueue: O(1)</li><li> Dequeue:  O(1)</li><li> Peek: O(1)</li><ul>            |<ul><li>- [x] Done</li><li>- [x] Memeory Leaks</li><li>- [ ] Code optimization</li><li>- [x] Explanatory Comments</li><ul>		   |
 | Tree            | Queue/Stack               |                    |            |<ul><li>- [ ] Done</li><li>- [ ] Memeory Leaks</li><li>- [ ] Code optimization</li><li>- [ ] Comments</li><ul>		   |
 | Hash Map        | Dynamic Arrays      |                    |            |<ul><li>- [ ] Done</li><li>- [ ] Memeory Leaks</li><li>- [ ] Code optimization</li><li>- [ ] Comments</li><ul>		   |
 ## Table of Content
@@ -17,9 +17,16 @@ This repository contains most famous Data Structures such as Stack, Queue, Tree,
 		- [Install](#install)
 	- [Stack](#stack)
 		- [Usage](#usage)
-			- [Usage-Prerequirements](#usage-prerequirements)
+			- [Stack Usage-Prerequirements](#stack-usage-prerequirements)
 			- [Methods](#methods)
+			- [Additional methods](#additional-methods)
 			- [Errors and Undefined Behavior](#errors-and-undefined-behavior)
+	- [Queue](#queue)
+		- [Usage](#usage-1)
+			- [Queue Usage-Prerequirements](#queue-usage-prerequirements)
+			- [Methods](#methods-1)
+			- [Additional methods](#additional-methods-1)
+			- [Errors and Undefined Behavior](#errors-and-undefined-behavior-1)
 	- [How To Contribute](#how-to-contribute)
 	- [Terms](#terms)
 	- [Links](#links)
@@ -37,7 +44,7 @@ For the build creation from the sources, you will needed in CMake. This util wil
 	- Now you have such hierarchy
   
 		![Working directory tree](https://user-images.githubusercontent.com/35202460/72209548-a4b65780-34c0-11ea-8fc7-8ce92447e345.png)
-- Create main.c in the current directory. Copy the code from the [Usage-Prerequirements](#usage-prerequirements) in your main.c according you compiler.
+- Create main.c in the current directory. Copy the code from the Usage-Prerequirements ([Stack](#stack-usage-prerequirements)/[Queue]()) to your main.c according you compiler.
 - Now let's create folder called "build"
 	> \> mkdir build
 - Going there
@@ -64,7 +71,7 @@ For the build creation from the sources, you will needed in CMake. This util wil
 
 - CMake will configure the project in the "build" and you can work with it.
 ## Stack
-[Stack](https://en.wikipedia.org/wiki/Stack(abstract_data_type)) is a linear data structure in which elements are arranged in **LIFO (last in, first out)** order. It has two basic operations which are changes the stack, **push** and **pop**. Additionally it has **peek** operation. I implemented this structure using single-linked-list.
+[Stack](https://en.wikipedia.org/wiki/Stack(abstract_data_type)) is a linear data structure in which elements are arranged in **LIFO (last in, first out)** order. It has two basic operations which are changes the stack, **push** and **pop**. Additionally it has **peek** operation. I implemented this structure using dynamic array.
 
 **push** - adds an element to the collection.
 
@@ -75,7 +82,7 @@ For the build creation from the sources, you will needed in CMake. This util wil
 ![Stack image](https://upload.wikimedia.org/wikipedia/commons/b/b4/Lifo_stack.png)
 
 ### Usage
-#### Usage-Prerequirements
+#### Stack Usage-Prerequirements
 Before CMake's usage you will need to create the main.c file. There are two a little bit different implementation.
 <details>
 <summary><b>MSVS-Compiler</b></summary>
@@ -112,16 +119,89 @@ int main() {
 #### Methods
 Basic stack-operations and their equivalent methods are listed here:
 
-|Method name|Command in the my implementation|Complexity|
-|-|-|-|
-|**push** |```stack_push(stack, value)``` |O(1) |
-|**pop** |```stack_pop(stack)``` |Basically, it's O(1) but in the my implementation it's O(n) due to single-linked-list usage|
-|**peek** |```stack_peek(stack)``` |O(1)|
+|Method name|Command in the my implementation|Complexity|Returns value|
+|-|-|-|-|
+|**push** |```stack_push(stack, value)``` |O(1) |Nothing (```void```)|
+|**pop** |```stack_pop(stack)``` |O(1)|Value which was peped (```T value```)|
+|**peek** |```stack_peek(stack)``` |O(1)|Value which contained at last node (```T value```)|
+#### Additional methods
+|Method name|Command in the my implementation|Descripton|Returns value|
+|-|-|-|-|
+|**emtiness** |```stack_empty(stack)```| Checks stack for the emtiness.|```1``` - if queue is empty. ```0``` - if queue is not empty|
+|**clear** |```stack_clear(stack)```| Removes all elements from the stack.|Nothing (```void```)|
+
 #### Errors and Undefined Behavior
-* First, definition two or more objects (it doesn't works for the MSVC). I didn't check with GNUC but I'm promise I'ill check it.
+* First, definition two or more objects. It doesn't work because you trying to redefine the stack-structure. I will think how to fix it but a little bit later.
 ```C
 stack(int) *a = NULL;
 stack(int) *b = NULL;
+```
+## Queue
+A [queue](https://en.wikipedia.org/wiki/Queue_(abstract_data_type)) is a collection of entities that are maintained in a sequence and can be modified by the addition of entities at one end of the sequence and removal from the other end of the sequence.
+The operation of adding an element to queue is known as **enqueue**, and the operation of removing an element is known as **dequeue**. Other operations may also be allowed, often including a **peek**  or front operation that returns the value of the next element to be dequeued without dequeuing it.
+The operations of a queue make it a first-in-first-out (**FIFO**) data structure. In a FIFO data structure, the first element added to the queue will be the first one to be removed.  I implemented this structure using double-linked list.
+
+**enqueue** - the operation of adding an element to the rear of the queue.
+
+**dequeue** - the operation of removing an element from the front of the queue.
+
+**peek** - the operation which returns the value of the last element but without dequeuing.
+
+![Queue image](https://netmatze.files.wordpress.com/2014/08/queue.png)
+### Usage
+#### Queue Usage-Prerequirements
+Before CMake's usage you will need to create the main.c file. There are two a little bit different implementation.
+
+<details>
+<summary><b>MSVS-Compiler</b></summary>
+
+```c
+#include "./includes/queue.h"
+int main() {
+  queue(int)* a = NULL;
+  queue_constructor(int, a);
+  /*
+    Paste your code here
+  */
+  queue_destructor(a);
+  return (0);
+}
+```
+</details>
+<details>
+<summary><b>GNUC-Compiler</b></summary>
+
+```c
+#include "./includes/queue.h"
+int main() {
+  queue(int)* a = queue_constructor(int);
+  /*
+    Paste your code here
+  */
+  queue_destructor(a);
+  return (0);
+}
+```
+</details>
+
+#### Methods
+|Method name|Command in the my implementation|Complexity|Returns value|
+|-|-|-|-|
+|**enqueue**|```queue_enqueue(queue, value)```|O(1)|Nothing (```void```)|
+|**dequeue**|```queue_dequeue(queue)```|O(1)|Value which was dequeued (```T value```)|
+|**peek**|```queue_peek(queue)```|O(1)|Value which contained at last node (```T value```)|
+
+#### Additional methods
+|Method name|Command in the my implementation|Description|Retunrns value
+|-|-|-|-|
+|**emtiness**|```queue_empty(queue)```|Checks queue for the emtiness.|```1``` - if queue is empty. ```0``` - if queue is not empty|
+|**clear**|```queue_clear(queue)```|Removes all elements from the queue.|Nothing (```void```)|
+
+#### Errors and Undefined Behavior
+* First, definition two or more objects. It doesn't work because you trying to redefine the queue-structure. I will think how to fix it but a little bit later.
+```C
+queue(int) *a = NULL;
+queue(int) *b = NULL;
 ```
 ## How To Contribute
 1. Clone repo and create a new branch:
