@@ -6,32 +6,32 @@ This repository contains most famous Data Structures such as Stack, Queue, Tree,
 | Data Structures | Based on Structures | Related Structures | Complexity | Check-List |
 |-----------------|---------------------|--------------------|------------|------------|
 | Stack           | Dynamic Arrays  | <ul><li> Vector</li><li> List</li><li> Some trees</li><ul>|<ul><li> Push: O(1)</li><li> Pop:  O(1)</li><li> Peek: O(1)</li><ul>            |<ul><li>- [x] Done</li><li>- [x] Memeory Leaks</li><li>- [x] Code optimization</li><li>- [x] Explanatory Comments</li><ul>		   |
-| Queue           | Double-Linked List      | <ul><li> Queue</li><li> Priority Queue</li><li> Some Trees</li><ul> |<ul><li> Enqueue: O(1)</li><li> Dequeue:  O(1)</li><li> Peek: O(1)</li><ul>            |<ul><li>- [x] Done</li><li>- [x] Memeory Leaks</li><li>- [ ] Code optimization</li><li>- [x] Explanatory Comments</li><ul>		   |
+| Queue           | Double-Linked List      | <ul><li> Queue</li><li> Priority Queue</li><li> Some Trees</li><ul> |<ul><li> Enqueue: O(1)</li><li> Dequeue:  O(1)</li><li> Peek: O(1)</li><ul>            |<ul><li>- [x] Done</li><li>- [x] Memeory Leaks</li><li>- [x] Code optimization</li><li>- [x] Explanatory Comments</li><ul>		   |
 | Tree            | Queue/Stack               |                    |            |<ul><li>- [ ] Done</li><li>- [ ] Memeory Leaks</li><li>- [ ] Code optimization</li><li>- [ ] Comments</li><ul>		   |
 | Hash Map        | Dynamic Arrays      |                    |            |<ul><li>- [ ] Done</li><li>- [ ] Memeory Leaks</li><li>- [ ] Code optimization</li><li>- [ ] Comments</li><ul>		   |
 ## Table of Content
 - [Data Structures Implemetation](#data-structures-implemetation)
-	- [Table of Content](#table-of-content)
-	- [Installation](#installation)
-		- [Prerequirements](#prerequirements)
-		- [Install](#install)
-	- [Stack](#stack)
-		- [Usage](#usage)
-			- [Stack Usage-Prerequirements](#stack-usage-prerequirements)
-			- [Methods](#methods)
-			- [Additional methods](#additional-methods)
-			- [Errors and Undefined Behavior](#errors-and-undefined-behavior)
-	- [Queue](#queue)
-		- [Usage](#usage-1)
-			- [Queue Usage-Prerequirements](#queue-usage-prerequirements)
-			- [Methods](#methods-1)
-			- [Additional methods](#additional-methods-1)
-			- [Errors and Undefined Behavior](#errors-and-undefined-behavior-1)
-	- [Common features of the usage](#common-features-of-the-usage)
-	- [How To Contribute](#how-to-contribute)
-	- [Terms](#terms)
-	- [Links](#links)
-	- [TODO](#todo)
+  - [Table of Content](#table-of-content)
+  - [Installation](#installation)
+    - [Prerequirements](#prerequirements)
+    - [Install](#install)
+  - [Stack](#stack)
+    - [Usage](#usage)
+      - [Stack Usage-Prerequirements](#stack-usage-prerequirements)
+      - [Methods](#methods)
+      - [Additional methods](#additional-methods)
+      - [Errors and Undefined Behavior](#errors-and-undefined-behavior)
+  - [Queue](#queue)
+    - [Usage](#usage-1)
+      - [Queue Usage-Prerequirements](#queue-usage-prerequirements)
+      - [Methods](#methods-1)
+      - [Additional methods](#additional-methods-1)
+      - [Errors and Undefined Behavior](#errors-and-undefined-behavior-1)
+  - [Common features of the usage](#common-features-of-the-usage)
+  - [How To Contribute](#how-to-contribute)
+  - [Terms](#terms)
+  - [Links](#links)
+  - [TODO](#todo)
 ## Installation
 ### Prerequirements
 For the build creation from the sources, you will needed in CMake. This util will configure a project structure for any IDE. You can download it [here](https://cmake.org/download/).
