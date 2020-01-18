@@ -27,6 +27,7 @@ This repository contains most famous Data Structures such as Stack, Queue, Tree,
 			- [Methods](#methods-1)
 			- [Additional methods](#additional-methods-1)
 			- [Errors and Undefined Behavior](#errors-and-undefined-behavior-1)
+	- [Common features of the usage](#common-features-of-the-usage)
 	- [How To Contribute](#how-to-contribute)
 	- [Terms](#terms)
 	- [Links](#links)
@@ -203,6 +204,23 @@ int main() {
 queue(int) *a = NULL;
 queue(int) *b = NULL;
 ```
+## Common features of the usage
+1. If you want to use the type which name contains two or more words such as ```unsigned long```, ```char*``` and so on. You have to use ```typedef```.
+   
+   ```C
+   ...
+   typedef char* string;
+   typedef unsigned long ul;
+   typedef stack(int) stack_int;
+   typedef stack(stack_int) stack_stack_int;
+   int main()
+   {
+	   stack(string) *a = NULL;
+	   stack(ul) *b = NULL;
+	   ...
+	   return (0);
+   }
+   ```
 ## How To Contribute
 1. Clone repo and create a new branch:
    >\> git checkout https://github.com/JuiceFV/Data_Structures_Implemetation.git -b name_for_new_branch
