@@ -236,3 +236,4 @@ queue(int) *b = NULL;
 ## TODO
 - Hash Map Implementation
 - Rewrite README
+- Write test's coverage
