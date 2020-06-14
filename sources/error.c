@@ -9,6 +9,14 @@ void write_error_log(const char* error_message, int line, const char* file,
   fclose(fout);
 }
 
+#if defined(__GNUC__)
+static void itoa(int value, char* buf, int base){	
+int i = 30;			
+buf = "";				
+for(; value && i ; --i, value /= base) buf = "0123456789abcdef"[value % base] + buf;				
+}
+#endif
+
 char* cat_dir_and_num(const char const* dir, int line) {
     char* result = (char*)malloc(sizeof(char) * 4);
     strcpy(result, "-> ");
