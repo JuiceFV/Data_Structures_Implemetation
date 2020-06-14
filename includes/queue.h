@@ -23,6 +23,7 @@
 // - function which writes error logs
 // - library for the memory leaks detection (#include <crtdbg.h>)
 #include "common.h"
+#include "error.h"
 
 // This define will expands as
 // struct node_T{T value; struct node_T *next}, where T is a type
@@ -44,13 +45,15 @@
     node(T) * begin, *end; \
   }
 
+#define anticipated_error 1
+
 // The destructor freeing memory which were allocated for the queue.
 // Check for the both the queue and the first element availability. If at least
 // one element exists then freeing node by node. As soon as each element is
 // freed, the entire queue is freed.
 #define queue_destructor(qu)                                                   \
   {                                                                            \
-    if (qu) {                                                                  \
+    if (qu && anticipated_error == 1) {                                        \
       if (qu->begin) {                                                         \
         do {                                                                   \
           void *temp = qu->begin;                                              \
@@ -61,8 +64,11 @@
       }                                                                        \
       free(qu);                                                                \
     } else {                                                                   \
+      char *specific_dir =                                                     \
+          cat_dir_and_num("includes/queue.h:", queue_error_lines[1]);          \
       write_error_log(QUEUE_INACCESSIBILITY("queue_destructor(qu)"), __LINE__, \
-                      __FILE__, "-> includes/queue.h:53");                     \
+                      __FILE__, specific_dir);                                 \
+      free(specific_dir);                                                      \
       printf(                                                                  \
           "Error has occured! Check error_log.txt for the more details.\n"     \
           "Press any key");                                                    \
@@ -77,10 +83,13 @@
 // field. Otherwise it writes an error into error_logs.txt
 #define queue_constructor(T, qu)                                             \
   do {                                                                       \
-    if (qu == NULL) {                                                        \
-      if (!(qu = malloc(sizeof(queue(T))))) {                                \
+    if (qu == NULL && anticipated_error == 1) {                              \
+      if (!(qu = malloc(sizeof(queue(T)))) && anticipated_error == 1) {      \
+        char *specific_dir =                                                 \
+            cat_dir_and_num("includes/queue.h:", queue_error_lines[3]);      \
         write_error_log(MALLOC_ERROR_MESSAGE, __LINE__, __FILE__,            \
-                        "-> includes/queue.h:81");                           \
+                        specific_dir);                                       \
+        free(specific_dir);                                                  \
         printf(                                                              \
             "Error has occured! Check error_log.txt for the more details.\n" \
             "Press any key");                                                \
@@ -90,8 +99,10 @@
       qu->end = NULL;                                                        \
       qu->size = 0;                                                          \
     } else {                                                                 \
-      write_error_log(QUEUE_EXISTANCE, __LINE__, __FILE__,                   \
-                      "-> includes/queue.h:80");                             \
+      char *specific_dir =                                                   \
+          cat_dir_and_num("includes/queue.h:", queue_error_lines[2]);        \
+      write_error_log(QUEUE_EXISTANCE, __LINE__, __FILE__, specific_dir);    \
+      free(specific_dir);                                                    \
       printf(                                                                \
           "Error has occured! Check error_log.txt for the more details.\n"   \
           "Press any key");                                                  \
@@ -106,30 +117,35 @@ void *queue_dequeue_function(queue(any_type) * qu);
 #define queue_dequeue(qu) queue_dequeue_function(qu)
 // GNUC-compiler implementation begins
 #elif defined(__GNUC__)
-#define queue_constructor(T)                                               \
-  ({                                                                       \
-    struct queue_##T *qu;                                                  \
-    if (!(qu = malloc(sizeof(queue(T))))) {                                \
-      write_error_log(MALLOC_ERROR_MESSAGE, __LINE__, __FILE__,            \
-                      "-> includes/queue.h:112");                          \
-      printf(                                                              \
-          "Error has occured! Check error_log.txt for the more details.\n" \
-          "Press any key");                                                \
-      return (getchar());                                                  \
-    }                                                                      \
-    qu->begin = NULL;                                                      \
-    qu->end = NULL;                                                        \
-    qu->size = 0;                                                          \
-    qu;                                                                    \
+#define queue_constructor(T)                                                   \
+  ({                                                                           \
+    struct queue_##T *qu;                                                      \
+    if (!(qu = malloc(sizeof(queue(T)))) && anticipated_error == 1) {          \
+      char *specific_dir =                                                     \
+          cat_dir_and_num("includes/queue.h:", queue_error_lines[4]);          \
+      write_error_log(MALLOC_ERROR_MESSAGE, __LINE__, __FILE__, specific_dir); \
+      free(specific_dir);                                                      \
+      printf(                                                                  \
+          "Error has occured! Check error_log.txt for the more details.\n"     \
+          "Press any key");                                                    \
+      return (getchar());                                                      \
+    }                                                                          \
+    qu->begin = NULL;                                                          \
+    qu->end = NULL;                                                            \
+    qu->size = 0;                                                              \
+    qu;                                                                        \
   })
 
 #define queue_dequeue(qu)                                                    \
   ({                                                                         \
     typeof(qu->begin->value) result;                                         \
-    if (qu) {                                                                \
-      if (qu->begin == NULL) {                                               \
+    if (qu && anticipated_error == 1) {                                      \
+      char *specific_dir =                                                   \
+          cat_dir_and_num("includes/queue.h:", queue_error_lines[5]);        \
+      if (qu->begin == NULL && anticipated_error == 1) {                     \
         write_error_log(QUEUE_ELEMENT_INACCESSIBILITY("queue_dequeue(qu)"),  \
-                        __LINE__, __FILE__, "-> includes/queue.h:130");      \
+                        __LINE__, __FILE__, specific_dir);                   \
+        free(specific_dir);                                                  \
         printf(                                                              \
             "Error has occured! Check error_log.txt for the more details.\n" \
             "Press any key");                                                \
@@ -149,8 +165,11 @@ void *queue_dequeue_function(queue(any_type) * qu);
         qu->size--;                                                          \
       }                                                                      \
     } else {                                                                 \
+      char *specific_dir =                                                   \
+          cat_dir_and_num("includes/queue.h:", queue_error_lines[6]);        \
       write_error_log(QUEUE_INACCESSIBILITY("queue_dequeue(qu)"), __LINE__,  \
-                      __FILE__, "-> includes/queue.h:129");                  \
+                      __FILE__, specific_dir);                               \
+      free(specific_dir);                                                    \
       printf(                                                                \
           "Error has occured! Check error_log.txt for the more details.\n"   \
           "Press any key");                                                  \
@@ -168,8 +187,8 @@ void *queue_dequeue_function(queue(any_type) * qu);
 // case if the queue exists then push element from the top.
 #define queue_enqueue(qu, val)                                                 \
   {                                                                            \
-    if (qu) {                                                                  \
-      if (qu->size++ < MAX_SIZE) {                                             \
+    if (qu && anticipated_error == 1) {                                        \
+      if (qu->size++ < MAX_SIZE && anticipated_error == 1) {                   \
         if (qu->begin) {                                                       \
           qu->begin->prev =                                                    \
               malloc(sizeof(*(qu->begin)) + sizeof(qu->begin->value));         \
@@ -185,8 +204,10 @@ void *queue_dequeue_function(queue(any_type) * qu);
           qu->end = qu->begin;                                                 \
         }                                                                      \
       } else {                                                                 \
-        write_error_log(QUEUE_OVERFLOW, __LINE__, __FILE__,                    \
-                        "-> includes/queue.h:172");                            \
+        char *specific_dir =                                                   \
+            cat_dir_and_num("includes/queue.h:", queue_error_lines[7]);        \
+        write_error_log(QUEUE_OVERFLOW, __LINE__, __FILE__, specific_dir);     \
+        free(specific_dir);                                                    \
         printf(                                                                \
             "Error has occured! Check error_log.txt for the more details.\n"   \
             "Press any key");                                                  \
@@ -194,8 +215,11 @@ void *queue_dequeue_function(queue(any_type) * qu);
         return (getchar());                                                    \
       }                                                                        \
     } else {                                                                   \
+      char *specific_dir =                                                     \
+          cat_dir_and_num("includes/queue.h:", queue_error_lines[8]);          \
       write_error_log(QUEUE_INACCESSIBILITY("queue_enqueue(qu, val)"),         \
-                      __LINE__, __FILE__, "-> includes/queue.h:171");          \
+                      __LINE__, __FILE__, specific_dir);                       \
+      free(specific_dir);                                                      \
       printf(                                                                  \
           "Error has occured! Check error_log.txt for the more details.\n"     \
           "Press any key");                                                    \
@@ -212,15 +236,18 @@ void *queue_dequeue_function(queue(any_type) * qu);
 // then removes node by node.
 #define queue_clear(qu)                                                    \
   do {                                                                     \
-    if (qu == NULL) {                                                      \
+    if (qu == NULL && anticipated_error == 1) {                            \
+      char *specific_dir =                                                 \
+          cat_dir_and_num("includes/queue.h:", queue_error_lines[9]);      \
       write_error_log(QUEUE_INACCESSIBILITY("queue_clear(qu)"), __LINE__,  \
-                      __FILE__, "-> includes/queue.h:215");                \
+                      __FILE__, specific_dir);                             \
+      free(specific_dir);                                                  \
       printf(                                                              \
           "Error has occured! Check error_log.txt for the more details.\n" \
           "Press any key");                                                \
       return (getchar());                                                  \
     }                                                                      \
-    if (qu->begin != NULL) {                                               \
+    if (qu->begin != NULL && anticipated_error == 1) {                     \
       while (qu->begin->next != NULL) {                                    \
         qu->begin = qu->begin->next;                                       \
         free(qu->begin->prev);                                             \
@@ -229,8 +256,10 @@ void *queue_dequeue_function(queue(any_type) * qu);
       qu->size = 0;                                                        \
       qu->end = qu->begin = NULL;                                          \
     } else {                                                               \
-      write_error_log(QUEUE_EMPTINESS, __LINE__, __FILE__,                 \
-                      "includes/queue.h:223");                             \
+      char *specific_dir =                                                 \
+          cat_dir_and_num("includes/queue.h:", queue_error_lines[10]);     \
+      write_error_log(QUEUE_EMPTINESS, __LINE__, __FILE__, specific_dir);  \
+      free(specific_dir);                                                  \
       printf(                                                              \
           "Error has occured! Check error_log.txt for the more details.\n" \
           "Press any key");                                                \

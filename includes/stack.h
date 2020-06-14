@@ -32,6 +32,7 @@
 // - function which writes error logs
 // - library for the memory leaks detection (#include <crtdbg.h>)
 #include "common.h"
+#include "error.h"
 
 // This define will expand as
 // struct stack_T{unsigned long size; T values[];}, where T is a type
@@ -39,10 +40,12 @@
 // You can read more about this here:
 // https://docs.microsoft.com/en-us/cpp/preprocessor/token-pasting-operator-hash-hash?view=vs-2019
 #define stack(T)        \
-  struct stack_##T {     \
+  struct stack_##T {    \
     unsigned long size; \
     T values[];         \
   }
+
+#define anticipated_error 1
 
 // Freeing memory which were allocated for the stack.
 #define stack_destructor(st) free(st)
@@ -58,10 +61,13 @@
 // 2) Malloc can't allocate the memory for the stack "st" for some reason.
 #define stack_constructor(T, st)                                             \
   {                                                                          \
-    if (st == NULL) {                                                        \
-      if (!(st = malloc(sizeof(stack(T))))) {                                \
+    if (st == NULL && anticipated_error == 1) {                              \
+      if (!(st = malloc(sizeof(stack(T)))) && anticipated_error == 1) {      \
+        char *specific_dir =                                                 \
+            cat_dir_and_num("includes/stack.h:", stack_error_lines[2]);      \
         write_error_log(MALLOC_ERROR_MESSAGE, __LINE__, __FILE__,            \
-                        "-> includes/stack.h:61");                           \
+                        specific_dir);                                       \
+        free(specific_dir);                                                  \
         printf(                                                              \
             "Error has occured! Check error_log.txt for the more details.\n" \
             "Press any key");                                                \
@@ -69,8 +75,10 @@
       }                                                                      \
       st->size = 0;                                                          \
     } else {                                                                 \
-      write_error_log(STACK_EXISTANCE, __LINE__, __FILE__,                   \
-                      "includes/stack.h:60");                                \
+      char *specific_dir =                                                   \
+          cat_dir_and_num("includes/stack.h:", stack_error_lines[1]);        \
+      write_error_log(STACK_EXISTANCE, __LINE__, __FILE__, specific_dir);    \
+      free(specific_dir);                                                    \
       printf(                                                                \
           "Error has occured! Check error_log.txt for the more details.\n"   \
           "Press any key");                                                  \
@@ -81,19 +89,21 @@
 
 // GNUC-compiler implementation begins
 #elif defined(__GNUC__)
-#define stack_constructor(T)                                               \
-  ({                                                                       \
-    struct stack_##T *st;                                                  \
-    if (!(st = malloc(sizeof(stack(T))))) {                                \
-      write_error_log(MALLOC_ERROR_MESSAGE, __LINE__, __FILE__,            \
-                      "-> includes/stack.h:85");                           \
-      printf(                                                              \
-          "Error has occured! Check error_log.txt for the more details.\n" \
-          "Press any key");                                                \
-      return (getchar());                                                  \
-    }                                                                      \
-    st->size = 0;                                                          \
-    st;                                                                    \
+#define stack_constructor(T)                                                   \
+  ({                                                                           \
+    struct stack_##T *st;                                                      \
+    if (!(st = malloc(sizeof(stack(T)))) && anticipated_error == 1) {          \
+      char *specific_dir =                                                     \
+          cat_dir_and_num("includes/stack.h:", stack_error_lines[3]);          \
+      write_error_log(MALLOC_ERROR_MESSAGE, __LINE__, __FILE__, specific_dir); \
+      free(specific_dir);                                                      \
+      printf(                                                                  \
+          "Error has occured! Check error_log.txt for the more details.\n"     \
+          "Press any key");                                                    \
+      return (getchar());                                                      \
+    }                                                                          \
+    st->size = 0;                                                              \
+    st;                                                                        \
   })
 
 #endif  // end compiler-split implimentation
@@ -103,14 +113,16 @@
 // https://en.wikipedia.org/wiki/Flexible_array_member
 #define stack_push(st, val)                                                    \
   {                                                                            \
-    if (st) {                                                                  \
-      if (st->size < MAX_SIZE) {                                               \
+    if (st && anticipated_error == 1) {                                        \
+      if (st->size < MAX_SIZE && anticipated_error == 1) {                     \
         st = realloc(st,                                                       \
                      sizeof(st->size) + (st->size + 1) * sizeof(*st->values)); \
         st->values[st->size++] = (val);                                        \
       } else {                                                                 \
-        write_error_log(STACK_OVERFLOW, __LINE__, __FILE__,                    \
-                        "-> includes/stack.h:104");                            \
+        char *specific_dir =                                                   \
+            cat_dir_and_num("includes/stack.h:", stack_error_lines[5]);        \
+        write_error_log(STACK_OVERFLOW, __LINE__, __FILE__, specific_dir);     \
+        free(specific_dir);                                                    \
         printf(                                                                \
             "Error has occured! Check error_log.txt for the more details.\n"   \
             "Press any key");                                                  \
@@ -118,8 +130,11 @@
         return (getchar());                                                    \
       }                                                                        \
     } else {                                                                   \
+      char *specific_dir =                                                     \
+          cat_dir_and_num("includes/stack.h:", stack_error_lines[4]);          \
       write_error_log(STACK_INACCESSIBILITY("stack_push(st, val)"), __LINE__,  \
-                      __FILE__, "-> includes/stack.h:103");                    \
+                      __FILE__, specific_dir);                                 \
+      free(specific_dir);                                                      \
       printf(                                                                  \
           "Error has occured! Check error_log.txt for the more details.\n"     \
           "Press any key");                                                    \
@@ -139,10 +154,12 @@
 // then removes values.
 #define stack_clear(st)                                                      \
   do {                                                                       \
-    if (st) {                                                                \
-      if (st->size == 0) {                                                   \
-        write_error_log(STACK_EMPTINESS, __LINE__, __FILE__,                 \
-                        "-> includes/stack.h:139");                          \
+    if (st && anticipated_error == 1) {                                      \
+      if (st->size == 0 && anticipated_error == 1) {                         \
+        char *specific_dir =                                                 \
+            cat_dir_and_num("includes/stack.h:", stack_error_lines[6]);      \
+        write_error_log(STACK_EMPTINESS, __LINE__, __FILE__, specific_dir);  \
+        free(specific_dir);                                                  \
         printf(                                                              \
             "Error has occured! Check error_log.txt for the more details.\n" \
             "Press any key");                                                \
@@ -152,8 +169,11 @@
       st = realloc(st, sizeof(st->size));                                    \
       st->size = 0;                                                          \
     } else {                                                                 \
+      char *specific_dir =                                                   \
+          cat_dir_and_num("includes/stack.h:", stack_error_lines[7]);        \
       write_error_log(STACK_INACCESSIBILITY("stack_clear(st)"), __LINE__,    \
-                      __FILE__, "-> includes/stack.h:138");                  \
+                      __FILE__, specific_dir);                               \
+      free(specific_dir);                                                    \
       printf(                                                                \
           "Error has occured! Check error_log.txt for the more details.\n"   \
           "Press any key");                                                  \
