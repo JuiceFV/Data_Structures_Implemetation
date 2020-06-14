@@ -7,8 +7,8 @@ All external libraries are rostered over here.
 
 // Uncomment if you want to use memory-leaks-checker
 // TODO: Further it will be replaced to tests.
-#define _CRTDBG_MAP_ALLOC
-#include <crtdbg.h>
+//#define _CRTDBG_MAP_ALLOC
+//#include <crtdbg.h>
 
 #include <stdio.h>
 #include <stdlib.h>
