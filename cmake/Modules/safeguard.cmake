@@ -1,5 +1,7 @@
 # Provides safeguards against in-source builds and bad build types.
 
+message(STATUS "Safeguard's checks")
+
 # Sets basic build type, if it doesn't set
 if(NOT CMAKE_BUILD_TYPE)
 	set(CMAKE_BUILD_TYPE "Release")
