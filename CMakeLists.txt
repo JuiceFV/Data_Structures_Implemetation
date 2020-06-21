@@ -26,24 +26,36 @@ set(${PROJECT_NAME}_queue_source "sources/queue.c")
 set(${PROJECT_NAME}_includes "includes/stack.h" "includes/common.h" "includes/queue.h" "includes/error.h" "includes/premain.h")
 set(${PROJECT_NAME}_error_source "sources/error.c")
 
-# main file
-set(${PROJECT_NAME}_main "main.c")
-
-# adding library toward the project
+# creating the library with the datat structures from the sources. Also, attach the headers.
 add_library(Data_Structures STATIC ${${PROJECT_NAME}_queue_source} ${${PROJECT_NAME}_includes} ${${PROJECT_NAME}_error_source})
 target_include_directories(Data_Structures PUBLIC "${PROJECT_SOURCE_DIR}/includes")
 
+# Check for in-source builds.
 include(safeguard)
 
-# adding executable
-add_executable(${PROJECT_NAME} ${${PROJECT_NAME}_main})
-target_link_libraries(${PROJECT_NAME} PRIVATE Data_Structures)
+# Set compilation's flags
+include(setflags)
 
-option(ENABLE_TESTS "Perform unit tests after build" OFF)
+option(ENABLE_TESTS "Perform unit tests after build" ON)
 
 if (ENABLE_TESTS)
+	message(STATUS "Test mode is on!")
+	# If tests are required then build the CMocka framework
+	set(LIBRARY_OUTPUT_PATH "${CMAKE_BINARY_DIR}")
+  	set(EXECUTABLE_OUTPUT_PATH "${CMAKE_BINARY_DIR}") 
 	add_subdirectory(cmocka)
-    find_package(cmocka CONFIG REQUIRED)
-    add_subdirectory(tests)
-    enable_testing()
+	find_package(cmocka CONFIG REQUIRED)
+	include(AddCMockaTest)
+    include(AddMockedTest)
+	add_subdirectory(tests)
+	enable_testing()
+else ()
+	message(STATUS "Executable mode is on!")
+	# main file
+	set(${PROJECT_NAME}_main "main.c")
+
+	# adding executable
+	add_executable(${PROJECT_NAME} ${${PROJECT_NAME}_main})
+	target_link_libraries(${PROJECT_NAME} PRIVATE Data_Structures)
+
 endif (ENABLE_TESTS)
