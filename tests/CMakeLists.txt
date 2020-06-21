@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 
-set(MAIN "all_tests.c")
+message(STATUS "Adding tests:")
 
-add_executable(tests ${MAIN})
-target_link_libraries(tests PUBLIC cmocka Data_Structures)
+add_mocked_test(queue LINK_LIBRARIES "Data_Structures")
+message(STATUS "Queue's tests has been added")
+add_mocked_test(stack LINK_LIBRARIES "Data_Structures")
+message(STATUS "Stack's tests has been added")
