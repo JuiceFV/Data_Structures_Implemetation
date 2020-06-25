@@ -105,7 +105,7 @@ function(ADD_CMOCKA_TEST _TARGET_NAME)
     endif()
 
     add_test(${_TARGET_NAME}
-        ${TARGET_SYSTEM_EMULATOR} ${_TARGET_NAME}
+        ${TARGET_SYSTEM_EMULATOR} ${CMAKE_BINARY_DIR}/${_TARGET_NAME}
     )
 
 endfunction (ADD_CMOCKA_TEST)
