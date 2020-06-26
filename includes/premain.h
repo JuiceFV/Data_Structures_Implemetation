@@ -4,6 +4,7 @@ This file responsible for demeanor before and after main performance.
 #ifndef _PREMAIN_H
 #define _PREMAIN_H
 
+#include "common.h"
 #include "error.h"
 
 // https://stackoverflow.com/questions/1113409/attribute-constructor-equivalent-in-vc/2390626
@@ -47,7 +48,7 @@ INITIALIZER(initialize)
     int number_of_error_line = 0;
     char* line;
     char* token;
-    file = fopen("../includes/queue.h", "r");
+    file = fopen(PATH_TO_QUEUE_H, "r");
     while (line = fgets(buff, 255, file))
     {
         number_of_error_line++;
@@ -62,7 +63,7 @@ INITIALIZER(initialize)
     fclose(file);
     number_of_error_line = 0;
     i = 0;
-    file = fopen("../includes/stack.h", "r");
+    file = fopen(PATH_TO_STACK_H, "r");
     while (line = fgets(buff, 255, file))
     {
         number_of_error_line++;
