@@ -5,3 +5,4 @@ https://attractivechaos.wordpress.com/2008/09/02/implementing-generic-hash-libra
 https://medium.com/@pankaj.rai16/know-your-data-structure-linked-list-4b00fcfbda93 (linkedlist time-complexity)
 https://issue.life/questions/47344571 (Readme table issue)
 https://www.markdownguide.org/ (Markdown guid)
+https://lwn.net/Articles/558106/ (CMocka mock tests)
