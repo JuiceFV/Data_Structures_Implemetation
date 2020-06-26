@@ -30,6 +30,8 @@ set(${PROJECT_NAME}_error_source "sources/error.c")
 add_library(Data_Structures STATIC ${${PROJECT_NAME}_queue_source} ${${PROJECT_NAME}_includes} ${${PROJECT_NAME}_error_source})
 target_include_directories(Data_Structures PUBLIC "${PROJECT_SOURCE_DIR}/includes")
 
+add_compile_definitions(PATH_TO_INCLUDES="${PROJECT_SOURCE_DIR}/includes")
+
 # Check for in-source builds.
 include(safeguard)
 
