@@ -87,7 +87,7 @@ static void queue_correct_destructor_behavior_test(void **state) {
 #if defined(_MSC_VER)
 static void queue_incorrect_destructor_behavior_test() {
 #elif defined (__GNUC__)
-static void queue_correct_destructor_behavior_test(void** state) {
+static void queue_incorrect_destructor_behavior_test(void** state) {
 #endif
   queue(int)* a = NULL;
   queue_destructor(a);
