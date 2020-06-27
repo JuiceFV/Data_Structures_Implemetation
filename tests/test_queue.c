@@ -6,11 +6,13 @@
 #include "premain.h"
 #include "queue.h"
 
-static void queue_correct_constructor_behavior_test() {
+
 #if defined (_MSC_VER)
+static void queue_correct_constructor_behavior_test() {
   queue(int)* a = NULL;
   queue_constructor(int, a);
 #elif defined (__GNUC__)
+static void queue_correct_constructor_behavior_test(void **state) {
     queue(int)* a = queue_constructor(int);
 #endif
   if (return_val_from_macro == 0) {
@@ -56,11 +58,13 @@ static void queue_correct_constructor_behavior_test() {
     }
 #endif
 
-static void queue_correct_destructor_behavior_test() {
+
 #if defined(_MSC_VER)
+static void queue_correct_destructor_behavior_test() {
   queue(int)* a = NULL;
   queue_constructor(int, a);
 #elif defined (__GNUC__)
+static void queue_correct_destructor_behavior_test(void **state) {
     queue(int)* a = queue_constructor(int);
 #endif
   if (return_val_from_macro == 0) {
@@ -80,7 +84,11 @@ static void queue_correct_destructor_behavior_test() {
   }
 }
 
+#if defined(_MSC_VER)
 static void queue_incorrect_destructor_behavior_test() {
+#elif defined (__GNUC__)
+static void queue_correct_destructor_behavior_test(void** state) {
+#endif
   queue(int)* a = NULL;
   queue_destructor(a);
   if (return_val_from_macro == -1) {

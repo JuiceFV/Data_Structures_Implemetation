@@ -39,15 +39,15 @@ static void finalize(void)
 INITIALIZER(initialize)
 {
     FILE* file;
-    file = fopen("error_logs.txt", "w");
-    fprintf(file, "");
-    fclose(file);
-
     char buff[255];
     int i = 0;
     int number_of_error_line = 0;
     char* line;
     char* token;
+    file = fopen("error_logs.txt", "w");
+    fprintf(file, "");
+    fclose(file);
+
     file = fopen(PATH_TO_QUEUE_H, "r");
     while (line = fgets(buff, 255, file))
     {
