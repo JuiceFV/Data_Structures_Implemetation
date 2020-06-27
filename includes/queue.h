@@ -111,8 +111,8 @@ void *queue_dequeue_function(queue(any_type) * qu);
 #elif defined(__GNUC__)
 #define queue_constructor(T)                                                   \
   ({                                                                           \
-    return_val_from_macro = 0;                                                 \
     struct queue_##T *qu;                                                      \
+    return_val_from_macro = 0;                                                 \
     if (!(qu = malloc(sizeof(queue(T)))) && anticipated_error == 1) {          \
       char *specific_dir =                                                     \
           cat_dir_and_num("includes/queue.h:", queue_error_lines[4]);          \
