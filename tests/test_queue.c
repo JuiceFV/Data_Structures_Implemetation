@@ -7,9 +7,12 @@
 #include "queue.h"
 
 static void queue_correct_constructor_behavior_test() {
+#if defined (_MSC_VER)
   queue(int)* a = NULL;
-
   queue_constructor(int, a);
+#elif defined (__GNUC__)
+    queue(int)* a = queue_constructor(int);
+#endif
   if (return_val_from_macro == 0) {
     assert_true(a != NULL);
     assert_true(a->begin == NULL);
@@ -35,6 +38,9 @@ static void queue_correct_constructor_behavior_test() {
           char* line = fgets(buff, 255, file);
           fclose(file);
           assert_true(line != NULL);
+          file = fopen("error_logs.txt", "w");
+          fprintf(file, "");
+          fclose(file);
         } else {
           printf(
               "Something went wrong in queue_incorrect_constructor_behavior_test");
@@ -51,8 +57,12 @@ static void queue_correct_constructor_behavior_test() {
 #endif
 
 static void queue_correct_destructor_behavior_test() {
+#if defined(_MSC_VER)
   queue(int)* a = NULL;
   queue_constructor(int, a);
+#elif defined (__GNUC__)
+    queue(int)* a = queue_constructor(int);
+#endif
   if (return_val_from_macro == 0) {
     assert_true(a != NULL);
     queue_destructor(a);
@@ -79,6 +89,9 @@ static void queue_incorrect_destructor_behavior_test() {
     char* line = fgets(buff, 255, file);
     fclose(file);
     assert_true(line != NULL);
+    file = fopen("error_logs.txt", "w");
+    fprintf(file, "");
+    fclose(file);
   } else {
     printf("Something went wrong in queue_incorrect_destructor_behavior_test");
     exit(getchar());
