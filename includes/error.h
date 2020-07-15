@@ -7,7 +7,8 @@ The file contains all data related with errors and exceptions.
 #include "common.h"
 
 // The global arrays retains lines where feasible an exception.
-// First element is the definition of "anticipated_error" therefoe the rest are the lines of possible exceptions.
+// First element is the definition of "anticipated_error" therefoe the rest are
+// the lines of possible exceptions.
 int queue_error_lines[11];
 int stack_error_lines[8];
 
@@ -34,6 +35,10 @@ int stack_error_lines[8];
 #define STACK_EMPTINESS                                                      \
   "The stack already empty. Either you didn't push anything into the stack " \
   "or you used stack_clear somewehre else."
+
+#define STACK_EMPTINESS(function)                               \
+  "This error has occured because there is no stack (stack == " \
+  "NULL).\nYou must use the constructor before using the " function "."
 
 // This error occures when you trying to push element into the full stack
 #define STACK_OVERFLOW "The stack has been overflowed"

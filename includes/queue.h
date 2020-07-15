@@ -64,6 +64,7 @@
         } while (qu->begin != NULL);                                           \
       }                                                                        \
       free(qu);                                                                \
+      qu = NULL;                                                               \
     } else {                                                                   \
       char *specific_dir =                                                     \
           cat_dir_and_num("includes/queue.h:", queue_error_lines[1]);          \

@@ -71,7 +71,7 @@ static void queue_correct_destructor_behavior_test(void **state) {
     assert_true(a != NULL);
     queue_destructor(a);
     if (return_val_from_macro == 0) {
-      assert_int_not_equal(a->size, 0);
+        assert_null(a);
     } else {
       printf("Something went wrong in queue_correct_destructor_behavior_test");
       queue_destructor(a);

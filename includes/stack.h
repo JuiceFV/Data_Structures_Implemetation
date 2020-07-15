@@ -48,7 +48,22 @@
 #define anticipated_error 1
 
 // Freeing memory which were allocated for the stack.
-#define stack_destructor(st) free(st)
+#define stack_destructor(st)                                               \
+  {                                                                        \
+    return_val_from_macro = 0;                                             \
+    if (st && anticipated_error == 1) {                                    \
+      free(st);                                                            \
+      st = NULL;                                                           \
+    } else {                                                               \
+      char *specific_dir =                                                 \
+          cat_dir_and_num("includes/stack.h:", stack_error_lines[1]);      \
+      write_error_log(STACK_INACCESSIBILITY("stack_destructor"), __LINE__, \
+                      __FILE__, specific_dir);                             \
+      free(specific_dir);                                                  \
+      return_val_from_macro = -1;                                          \
+    }                                                                      \
+  }                                                                        \
+  }
 
 // Splitting into two implementations due to the variety of compilers. However,
 // the basic logic is the same.
@@ -59,32 +74,27 @@
 // 1) The stack "st" already exists. It means that the constructor has been used
 // somewhere else.
 // 2) Malloc can't allocate the memory for the stack "st" for some reason.
-#define stack_constructor(T, st)                                             \
-  {                                                                          \
-    if (st == NULL && anticipated_error == 1) {                              \
-      if (!(st = malloc(sizeof(stack(T)))) && anticipated_error == 1) {      \
-        char *specific_dir =                                                 \
-            cat_dir_and_num("includes/stack.h:", stack_error_lines[2]);      \
-        write_error_log(MALLOC_ERROR_MESSAGE, __LINE__, __FILE__,            \
-                        specific_dir);                                       \
-        free(specific_dir);                                                  \
-        printf(                                                              \
-            "Error has occured! Check error_log.txt for the more details.\n" \
-            "Press any key");                                                \
-        return (getchar());                                                  \
-      }                                                                      \
-      st->size = 0;                                                          \
-    } else {                                                                 \
-      char *specific_dir =                                                   \
-          cat_dir_and_num("includes/stack.h:", stack_error_lines[1]);        \
-      write_error_log(STACK_EXISTANCE, __LINE__, __FILE__, specific_dir);    \
-      free(specific_dir);                                                    \
-      printf(                                                                \
-          "Error has occured! Check error_log.txt for the more details.\n"   \
-          "Press any key");                                                  \
-      stack_destructor(st);                                                  \
-      return (getchar());                                                    \
-    }                                                                        \
+#define stack_constructor(T, st)                                          \
+  {                                                                       \
+    return_val_from_macro = 0;                                            \
+    if (st == NULL && anticipated_error == 1) {                           \
+      if (!(st = malloc(sizeof(stack(T)))) && anticipated_error == 1) {   \
+        char *specific_dir =                                              \
+            cat_dir_and_num("includes/stack.h:", stack_error_lines[3]);   \
+        write_error_log(MALLOC_ERROR_MESSAGE, __LINE__, __FILE__,         \
+                        specific_dir);                                    \
+        free(specific_dir);                                               \
+        return_val_from_macro = -1;                                       \
+      }                                                                   \
+      st->size = 0;                                                       \
+    } else {                                                              \
+      char *specific_dir =                                                \
+          cat_dir_and_num("includes/stack.h:", stack_error_lines[2]);     \
+      write_error_log(STACK_EXISTANCE, __LINE__, __FILE__, specific_dir); \
+      free(specific_dir);                                                 \
+      return_val_from_macro = -1;                                         \
+      stack_destructor(st);                                               \
+    }                                                                     \
   }
 
 // GNUC-compiler implementation begins
@@ -92,15 +102,13 @@
 #define stack_constructor(T)                                                   \
   ({                                                                           \
     struct stack_##T *st;                                                      \
+    return_val_from_macro = 0;                                                 \
     if (!(st = malloc(sizeof(stack(T)))) && anticipated_error == 1) {          \
       char *specific_dir =                                                     \
-          cat_dir_and_num("includes/stack.h:", stack_error_lines[3]);          \
+          cat_dir_and_num("includes/stack.h:", stack_error_lines[4]);          \
       write_error_log(MALLOC_ERROR_MESSAGE, __LINE__, __FILE__, specific_dir); \
       free(specific_dir);                                                      \
-      printf(                                                                  \
-          "Error has occured! Check error_log.txt for the more details.\n"     \
-          "Press any key");                                                    \
-      return (getchar());                                                      \
+      return_val_from_macro = -1;                                              \
     }                                                                          \
     st->size = 0;                                                              \
     st;                                                                        \
@@ -120,25 +128,19 @@
         st->values[st->size++] = (val);                                        \
       } else {                                                                 \
         char *specific_dir =                                                   \
-            cat_dir_and_num("includes/stack.h:", stack_error_lines[5]);        \
+            cat_dir_and_num("includes/stack.h:", stack_error_lines[6]);        \
         write_error_log(STACK_OVERFLOW, __LINE__, __FILE__, specific_dir);     \
         free(specific_dir);                                                    \
-        printf(                                                                \
-            "Error has occured! Check error_log.txt for the more details.\n"   \
-            "Press any key");                                                  \
+        return_val_from_macro = -1;                                            \
         stack_destructor(st);                                                  \
-        return (getchar());                                                    \
       }                                                                        \
     } else {                                                                   \
       char *specific_dir =                                                     \
-          cat_dir_and_num("includes/stack.h:", stack_error_lines[4]);          \
+          cat_dir_and_num("includes/stack.h:", stack_error_lines[5]);          \
       write_error_log(STACK_INACCESSIBILITY("stack_push(st, val)"), __LINE__,  \
                       __FILE__, specific_dir);                                 \
       free(specific_dir);                                                      \
-      printf(                                                                  \
-          "Error has occured! Check error_log.txt for the more details.\n"     \
-          "Press any key");                                                    \
-      return (getchar());                                                      \
+      return_val_from_macro = -1;                                              \
     }                                                                          \
   }
 
@@ -157,7 +159,7 @@
     if (st && anticipated_error == 1) {                                      \
       if (st->size == 0 && anticipated_error == 1) {                         \
         char *specific_dir =                                                 \
-            cat_dir_and_num("includes/stack.h:", stack_error_lines[6]);      \
+            cat_dir_and_num("includes/stack.h:", stack_error_lines[7]);      \
         write_error_log(STACK_EMPTINESS, __LINE__, __FILE__, specific_dir);  \
         free(specific_dir);                                                  \
         printf(                                                              \
@@ -170,7 +172,7 @@
       st->size = 0;                                                          \
     } else {                                                                 \
       char *specific_dir =                                                   \
-          cat_dir_and_num("includes/stack.h:", stack_error_lines[7]);        \
+          cat_dir_and_num("includes/stack.h:", stack_error_lines[8]);        \
       write_error_log(STACK_INACCESSIBILITY("stack_clear(st)"), __LINE__,    \
                       __FILE__, specific_dir);                               \
       free(specific_dir);                                                    \
