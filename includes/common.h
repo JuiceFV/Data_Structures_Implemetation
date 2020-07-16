@@ -26,6 +26,6 @@ typedef void* any_type;
 #define MAX_SIZE 4294967295
 
 // Something similar to return from function, however for macroses.
-int return_val_from_macro;
+void* return_val_from_macro;
 
 #endif
