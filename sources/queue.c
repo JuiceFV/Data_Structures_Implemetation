@@ -12,11 +12,8 @@ void* queue_dequeue_function(queue(any_type) * qu) {
       write_error_log(QUEUE_ELEMENT_INACCESSIBILITY(
                           "queue_dequeue_function(queue(any_type) * qu)"),
                       __LINE__, __FILE__, "");
-      printf(
-          "Error has occured! Check error_log.txt for the more details.\n"
-          "Press any key");
       queue_destructor(qu);
-      exit(getchar());
+      return (NULL);
     }
     void* result = qu->end->value;
     if (qu->end != qu->begin) {
@@ -27,17 +24,15 @@ void* queue_dequeue_function(queue(any_type) * qu) {
       return (result);
     }
     free(qu->end);
-    qu->end = qu->begin = NULL;
+    qu->end = NULL;
+    qu->begin = NULL;
     qu->size--;
     return (result);
   } else {
     write_error_log(
         QUEUE_INACCESSIBILITY("queue_dequeue_function(queue(any_type) * qu)"),
         __LINE__, __FILE__, "");
-    printf(
-        "Error has occured! Check error_log.txt for the more details.\n"
-        "Press any key");
-    exit(getchar());
+    return (NULL);
   }
 }
 #endif

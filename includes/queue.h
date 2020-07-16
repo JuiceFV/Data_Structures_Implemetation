@@ -107,7 +107,7 @@
 // Due to there is no way to use such notation queue(void *). It demands the
 // typedef. The dequeue function will be described in queue.c
 void *queue_dequeue_function(queue(any_type) * qu);
-#define queue_dequeue(qu) queue_dequeue_function(qu)
+#define queue_dequeue(qu) return_val_from_macro = queue_dequeue_function(qu)
 // GNUC-compiler implementation begins
 #elif defined(__GNUC__)
 #define queue_constructor(T)                                                   \

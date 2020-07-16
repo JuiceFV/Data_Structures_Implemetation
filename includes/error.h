@@ -36,7 +36,7 @@ int stack_error_lines[8];
   "The stack already empty. Either you didn't push anything into the stack " \
   "or you used stack_clear somewehre else."
 
-#define STACK_EMPTINESS(function)                               \
+#define STACK_INACCESSIBILITY(function)                               \
   "This error has occured because there is no stack (stack == " \
   "NULL).\nYou must use the constructor before using the " function "."
 
