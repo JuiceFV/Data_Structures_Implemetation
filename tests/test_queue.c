@@ -111,7 +111,7 @@ static void queue_correct_dequeue_behavior_test() {
     queue(int)* a = NULL;
     queue_constructor(int, a);
 #elif defined (__GNUC__)
-static void queue_correct_destructor_behavior_test(void** state) {
+static void queue_correct_dequeue_behavior_test(void** state) {
     queue(int)* a = queue_constructor(int);
 #endif
     queue_enqueue(a, 1);
