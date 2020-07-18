@@ -136,11 +136,6 @@ static void queue_correct_dequeue_behavior_test(void** state) {
 static void queue_incorrect_dequeue_behavior_test() {
   queue(int)* a = NULL;
   queue_constructor(int, a);
-#elif defined(__GNUC__)
-static void queue_incorrect_dequeue_behavior_test(void** state) {
-  queue(int)* a = queue_constructor(int);
-#endif
-  // The test when a queue exists however first element is missing
   queue_dequeue(a);
   if (return_val_from_macro == NULL) {
     FILE* file = fopen("error_logs.txt", "r");
@@ -157,6 +152,7 @@ static void queue_incorrect_dequeue_behavior_test(void** state) {
     exit(-1);
   }
 }
+#endif
 
 int main(void) {
   const struct CMUnitTest tests[] = {
@@ -167,7 +163,9 @@ int main(void) {
     cmocka_unit_test(queue_correct_destructor_behavior_test),
     cmocka_unit_test(queue_incorrect_destructor_behavior_test),
     cmocka_unit_test(queue_correct_dequeue_behavior_test),
+#if defined(_MSC_VER)
     cmocka_unit_test(queue_incorrect_dequeue_behavior_test),
+#endif
   };
   return cmocka_run_group_tests(tests, NULL, NULL);
 }
