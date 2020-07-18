@@ -156,24 +156,6 @@ static void queue_incorrect_dequeue_behavior_test(void** state) {
     queue_destructor(a);
     exit(-1);
   }
-
-  // The test when a queue is avoided
-  a = NULL;
-  queue_dequeue(a);
-  if (return_val_from_macro == NULL) {
-    FILE* file = fopen("error_logs.txt", "r");
-    char buff[255];
-    char* line = fgets(buff, 255, file);
-    fclose(file);
-    assert_true(line != NULL);
-    file = fopen("error_logs.txt", "w");
-    fprintf(file, "");
-    fclose(file);
-  } else {
-    printf("Something went wrong in queue_correct_dequeue_behavior_test");
-    queue_destructor(a);
-    exit(-1);
-  }
 }
 
 int main(void) {
