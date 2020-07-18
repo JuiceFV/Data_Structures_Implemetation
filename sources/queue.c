@@ -24,8 +24,7 @@ void* queue_dequeue_function(queue(any_type) * qu) {
       return (result);
     }
     free(qu->end);
-    qu->end = NULL;
-    qu->begin = NULL;
+    qu->end = qu->begin = NULL;
     qu->size--;
     return (result);
   } else {
@@ -34,5 +33,29 @@ void* queue_dequeue_function(queue(any_type) * qu) {
         __LINE__, __FILE__, "");
     return (NULL);
   }
+}
+
+void* queue_empty_function(queue(any_type)* qu) {
+    if (qu) {
+        return qu->size == 0 ? 1 : 0;
+    }
+    else {
+        write_error_log(
+            QUEUE_INACCESSIBILITY("queue_dequeue_function(queue(any_type) * qu)"),
+            __LINE__, __FILE__, "");
+        return (NULL);
+    }
+}
+
+void* queue_peek_function(queue(any_type)* qu) {
+    if (qu) {
+        return qu->end->value;
+    }
+    else {
+        write_error_log(
+            QUEUE_INACCESSIBILITY("queue_dequeue_function(queue(any_type) * qu)"),
+            __LINE__, __FILE__, "");
+        return (NULL);
+    }
 }
 #endif

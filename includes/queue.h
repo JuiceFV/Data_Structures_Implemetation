@@ -108,6 +108,12 @@
 // typedef. The dequeue function will be described in queue.c
 void *queue_dequeue_function(queue(any_type) * qu);
 #define queue_dequeue(qu) return_val_from_macro = queue_dequeue_function(qu)
+
+void *queue_empty_function(queue(any_type) * qu);
+#define queue_empty(qu) return_val_from_macro = queue_empty_function(qu)
+
+void *queue_peek_function(queue(any_type) * qu);
+#define queue_peek(qu) return_val_from_macro = queue_peek_function(qu)
 // GNUC-compiler implementation begins
 #elif defined(__GNUC__)
 #define queue_constructor(T)                                                   \
@@ -164,6 +170,38 @@ void *queue_dequeue_function(queue(any_type) * qu);
     result;                                                                 \
   })
 
+#define queue_empty(qu)                                                    \
+  {                                                                        \
+    return_val_from_macro = NULL;                                          \
+    if (qu && anticipated_error == 1) {                                    \
+      return_val_from_macro = (qu->size == 0) ? 1 : 0;                     \
+      return_val_from_macro;                                               \
+    } else {                                                               \
+      char *specific_dir =                                                 \
+          cat_dir_and_num("includes/queue.h:", queue_error_lines[7]);      \
+      write_error_log(QUEUE_INACCESSIBILITY(                               \
+                          "queue_dequeue_function(queue(any_type) * qu)"), \
+                      __LINE__, __FILE__, specific_dir);                   \
+      free(specific_dir);                                                  \
+    }                                                                      \
+  }
+
+#define queue_peek(qu)                                                     \
+  {                                                                        \
+    return_val_from_macro = NULL;                                          \
+    if (qu && anticipated_error == 1) {                                    \
+      return_val_from_macro = (qu->end->value == 0) ? 1 : 0;               \
+      return_val_from_macro;                                               \
+    } else {                                                               \
+      char *specific_dir =                                                 \
+          cat_dir_and_num("includes/queue.h:", queue_error_lines[8]);      \
+      write_error_log(QUEUE_INACCESSIBILITY(                               \
+                          "queue_dequeue_function(queue(any_type) * qu)"), \
+                      __LINE__, __FILE__, specific_dir);                   \
+      free(specific_dir);                                                  \
+    }                                                                      \
+  }
+
 #endif  // end compiler-split implimentation
 
 // Due to in the queue_enqueue a type doesn't available we shall use another
@@ -192,7 +230,7 @@ void *queue_dequeue_function(queue(any_type) * qu);
         }                                                                      \
       } else {                                                                 \
         char *specific_dir =                                                   \
-            cat_dir_and_num("includes/queue.h:", queue_error_lines[7]);        \
+            cat_dir_and_num("includes/queue.h:", queue_error_lines[9]);        \
         write_error_log(QUEUE_OVERFLOW, __LINE__, __FILE__, specific_dir);     \
         free(specific_dir);                                                    \
         return_val_from_macro = NULL;                                          \
@@ -200,17 +238,13 @@ void *queue_dequeue_function(queue(any_type) * qu);
       }                                                                        \
     } else {                                                                   \
       char *specific_dir =                                                     \
-          cat_dir_and_num("includes/queue.h:", queue_error_lines[8]);          \
+          cat_dir_and_num("includes/queue.h:", queue_error_lines[10]);          \
       write_error_log(QUEUE_INACCESSIBILITY("queue_enqueue(qu, val)"),         \
                       __LINE__, __FILE__, specific_dir);                       \
       free(specific_dir);                                                      \
       return_val_from_macro = NULL;                                            \
     }                                                                          \
   }
-
-#define queue_empty(qu) qu->size == 0 ? 1 : 0
-
-#define queue_peek(qu) qu->end->value
 
 // Queue clear is the method which removes each node but it doesn't removes
 // whole queue. Check for queue and first element availability. If both true
@@ -219,7 +253,7 @@ void *queue_dequeue_function(queue(any_type) * qu);
   do {                                                                     \
     if (qu == NULL && anticipated_error == 1) {                            \
       char *specific_dir =                                                 \
-          cat_dir_and_num("includes/queue.h:", queue_error_lines[9]);      \
+          cat_dir_and_num("includes/queue.h:", queue_error_lines[11]);     \
       write_error_log(QUEUE_INACCESSIBILITY("queue_clear(qu)"), __LINE__,  \
                       __FILE__, specific_dir);                             \
       free(specific_dir);                                                  \
@@ -238,7 +272,7 @@ void *queue_dequeue_function(queue(any_type) * qu);
       qu->end = qu->begin = NULL;                                          \
     } else {                                                               \
       char *specific_dir =                                                 \
-          cat_dir_and_num("includes/queue.h:", queue_error_lines[10]);     \
+          cat_dir_and_num("includes/queue.h:", queue_error_lines[12]);     \
       write_error_log(QUEUE_EMPTINESS, __LINE__, __FILE__, specific_dir);  \
       free(specific_dir);                                                  \
       printf(                                                              \

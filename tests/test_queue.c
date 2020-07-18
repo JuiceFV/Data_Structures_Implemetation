@@ -3,7 +3,6 @@
 #include <stddef.h>
 #include <cmocka.h>
 
-
 #include "premain.h"
 #include "queue.h"
 
@@ -23,7 +22,7 @@ static void queue_correct_constructor_behavior_test(void** state) {
   } else {
     printf("Something went wrong in queue_correct_constructor_behavior_test");
     queue_destructor(a);
-    exit(getchar());
+    exit(-1);
   }
   queue_destructor(a);
 }
@@ -47,12 +46,12 @@ static void queue_incorrect_constructor_behavior_test() {
       printf(
           "Something went wrong in queue_incorrect_constructor_behavior_test");
       queue_destructor(a);
-      exit(getchar());
+      exit(-1);
     }
   } else {
     printf("Something went wrong in queue_incorrect_constructor_behavior_test");
     queue_destructor(a);
-    exit(getchar());
+    exit(-1);
   }
   queue_destructor(a);
 }
@@ -74,12 +73,12 @@ static void queue_correct_destructor_behavior_test(void** state) {
     } else {
       printf("Something went wrong in queue_correct_destructor_behavior_test");
       queue_destructor(a);
-      exit(getchar());
+      exit(-1);
     }
   } else {
     printf("Something went wrong in queue_correct_destructor_behavior_test");
     queue_destructor(a);
-    exit(getchar());
+    exit(-1);
   }
 }
 
@@ -101,7 +100,7 @@ static void queue_incorrect_destructor_behavior_test(void** state) {
     fclose(file);
   } else {
     printf("Something went wrong in queue_incorrect_destructor_behavior_test");
-    exit(getchar());
+    exit(-1);
   }
 }
 
@@ -124,15 +123,58 @@ static void queue_correct_dequeue_behavior_test(void** state) {
     } else {
       printf("Something went wrong in queue_correct_dequeue_behavior_test");
       queue_destructor(a);
-      exit(getchar());
+      exit(-1);
     }
   } else {
     printf("Something went wrong in queue_correct_dequeue_behavior_test");
     queue_destructor(a);
-    exit(getchar());
+    exit(-1);
   }
 }
 
+#if defined(_MSC_VER)
+static void queue_incorrect_dequeue_behavior_test() {
+  queue(int)* a = NULL;
+  queue_constructor(int, a);
+#elif defined(__GNUC__)
+static void queue_incorrect_dequeue_behavior_test(void** state) {
+  queue(int)* a = queue_constructor(int);
+#endif
+  // The test when a queue exists however first element is missing
+  queue_dequeue(a);
+  if (return_val_from_macro == NULL) {
+    FILE* file = fopen("error_logs.txt", "r");
+    char buff[255];
+    char* line = fgets(buff, 255, file);
+    fclose(file);
+    assert_true(line != NULL);
+    file = fopen("error_logs.txt", "w");
+    fprintf(file, "");
+    fclose(file);
+  } else {
+    printf("Something went wrong in queue_correct_dequeue_behavior_test");
+    queue_destructor(a);
+    exit(-1);
+  }
+
+  // The test when a queue is avoided
+  a = NULL;
+  queue_dequeue(a);
+  if (return_val_from_macro == NULL) {
+    FILE* file = fopen("error_logs.txt", "r");
+    char buff[255];
+    char* line = fgets(buff, 255, file);
+    fclose(file);
+    assert_true(line != NULL);
+    file = fopen("error_logs.txt", "w");
+    fprintf(file, "");
+    fclose(file);
+  } else {
+    printf("Something went wrong in queue_correct_dequeue_behavior_test");
+    queue_destructor(a);
+    exit(-1);
+  }
+}
 
 int main(void) {
   const struct CMUnitTest tests[] = {
@@ -143,6 +185,7 @@ int main(void) {
     cmocka_unit_test(queue_correct_destructor_behavior_test),
     cmocka_unit_test(queue_incorrect_destructor_behavior_test),
     cmocka_unit_test(queue_correct_dequeue_behavior_test),
+    cmocka_unit_test(queue_incorrect_dequeue_behavior_test),
   };
   return cmocka_run_group_tests(tests, NULL, NULL);
 }
