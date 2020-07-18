@@ -154,6 +154,23 @@ static void queue_incorrect_dequeue_behavior_test() {
 }
 #endif
 
+#if defined(_MSC_VER)
+static void queue_correct_empty_behavior_test() {
+    queue(int)* a = NULL;
+    queue_constructor(int, a);
+#elif defined(__GNUC__)
+static void queue_correct_empty_behavior_test(void** state) {
+    queue(int)* a = queue_constructor(int);
+#endif
+    queue_empty(a);
+    if (return_val_from_macro != NULL)
+        assert_int_equal(return_val_from_macro, 1);
+    queue_enqueue(a, 1);
+    queue_empty(a);
+    if (return_val_from_macro != NULL)
+        assert_int_equal(return_val_from_macro, 0);
+}
+
 int main(void) {
   const struct CMUnitTest tests[] = {
     cmocka_unit_test(queue_correct_constructor_behavior_test),
@@ -166,6 +183,7 @@ int main(void) {
 #if defined(_MSC_VER)
     cmocka_unit_test(queue_incorrect_dequeue_behavior_test),
 #endif
+    cmocka_unit_test(queue_correct_empty_behavior_test),
   };
   return cmocka_run_group_tests(tests, NULL, NULL);
 }
